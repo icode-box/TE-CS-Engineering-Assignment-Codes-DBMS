@@ -1,4 +1,43 @@
 Assignment No. 1                                                            
+Question 1 
+
+Create employee database having following specification 
+Employee ( EMPNO, ENAME, designation, join date, SAL, DEPTNO, phone no) 
+Department (dept_no, department, building name)
+
+*Queries-
+1
+Create database and show all databases
+2
+Create table and show all table
+3
+Show structure of table
+4
+Add 5 records in above table
+5
+Display all records
+6
+Add column address
+7
+Display all ‘Accountant’ staff
+8
+Add record for address
+9
+Delete record whose empid is 11
+10
+Drop column building name
+11
+Delete all records from department table;
+12
+Change the phone number field name to contact number
+13
+Increase salary of all clerks by 100 rupees;
+14
+Display employ records in ascending /descending order by their salary
+15
+Delete department table
+
+code:
 
 Query 1 : Create database & list the existing databases
 
