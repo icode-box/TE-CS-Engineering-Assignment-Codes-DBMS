@@ -1,0 +1,328 @@
+Question No 3 
+Create a medical database having following table.
+1.Patient table (pat_id,pat_name,date_adm,age,city);
+2.Doctor table(doc_id,doc_name,qualification,exp,dept,city,salary);
+3.Treats table(doc_id,pat_id,disease);foriegn key doc_id,pat_id;
+    (add on delete cascade constrain)
+
+*Query:--
+
+1. Insert at least 5 records in each table;
+2. Display all the patients name between the age group 18-15;
+3. Display the list of doctors who are MD;
+4. Display the list of doctors whose exp is 20+ years;
+5. Display patients suffering from Cancer;
+6. Display the patient name and the doctor name who r in cancer;
+7. Display the patient name, whose name starts with letter A, End with A, having the exacts   5   
+letters;
+8. Remove all the records of patients with Pat_id  =p10;
+9. Remove all the records of doctor Suhas;
+10. Change the qualification of doctor shubham from mbbs to md;
+11. Give five percent salaary raise to the dentist 5% and 10% to cardiologists, in single query;
+12. Display dept wise total salary of the doctors;
+13. Find the dept, which has the highest avg salary;
+14. Find the avg salary of docs in dentist dept;
+15. Find the deptwhreravg salary of the instructor is more than 50,000;
+16. Find how many docs work in hospital;
+17. Find out how many doctors actually treated a patient;
+18. List the cities in which either doctors or patient lives;
+19. List the cites where both lives;
+20. Find the doctors who have not treated any patient;
+
+Query:
+
+Create a medical database having following tables: 
+Patient table(patient_id,patient_name,Date of Admit,Age,City) 
+Doctor table(doc_id,doc_name,qualification,experience,dept,city,salary) 
+Treats table(doc_id,patient_id,disease) (use on delete cascade ) 
+1. Insert at least 5 records in each table. 
+select * from Patient; 
++--------+----------+-------------+------+-----------+ 
+| pat_id | pat_name | DateOfAdmit | age  | city      | 
++--------+----------+-------------+------+-----------+ 
+| a10    | Aryan    | 2017-05-11  |   20 | Mumbai    | 
+| c12    | Amit     | 2017-07-21  |   39 | Bangalore | 
+| d13    | Anita    | 2017-09-25  |   49 | Pune      | 
+| p10    | Sandesh  | 2016-07-21  |   28 | Pune      | 
+| x15    | Suyash   | 2017-04-17  |   29 | Delhi     | 
++--------+----------+-------------+------+-----------+ 
+
+select * from Doctor; 
++--------+----------+---------------+------------+------------+-----------+--------+ 
+| doc_id | doc_name | qualification | experience | dept       | city      | salary | 
++--------+----------+---------------+------------+------------+-----------+--------+ 
+| e1     | Suhas    | MD            |         10 | Dental     | Pune      |  70000 | 
+| r5     | Yogesh   | MD            |          8 | Dental     | Delhi     |  40000 | 
+| s5     | Mangesh  | MBBS          |         25 | Cardiology | Bangalore | 100000 | 
+| w8     | Komal    | MBBS          |         25 | Chemothera | Kolkata   |  45000 | 
+| y3     | Shubham  | MBBS          |         10 | Cardiology | Mumabi    |  60000 | 
++--------+----------+---------------+------------+------------+-----------+--------+ 
+
+
+select * from Treats; 
++--------+--------+--------------+ 
+| doc_id | pat_id | disease      | 
++--------+--------+--------------+ 
+| w8     | p10    | Cancer       | 
+| w8     | c12    | Cancer       | 
+| e1     | d13    | Toothache    | 
+| s5     | x15    | Heart Attack | 
+| r5     | a10    | Cavities     | 
++--------+--------+--------------+ 
+5 rows in set (0.00 sec) 
+
+
+2. Display all the patient names between age group 18 to 50. 
+
+select pat_name from Patient where age between 18 and 50; 
++----------+ 
+| pat_name | 
++----------+ 
+| Aryan    | 
+| Amit     | 
+| Anita    | 
+| Sandesh  | 
+| Suyash   | 
++----------+ 
+5 rows in set (0.00 sec) 
+
+ 
+3. Display the list of all doctors who are MD. 
+select doc_name from Doctor where qualification="MD"; 
++----------+ 
+| doc_name | 
++----------+ 
+| Suhas    | 
+| Yogesh   | 
++----------+ 
+2 rows in set (0.00 sec) 
+
+4. Display the list of all doctors whose experience>20 years. 
+ select doc_name from Doctor where experience>20; 
++----------+ 
+| doc_name | 
++----------+ 
+| Mangesh  | 
+| Komal    | 
++----------+ 
+2 rows in set (0.00 sec) 
+
+
+5. Display patient names suffering from cancer. 
+select pat_name from Patient,Treats where Treats.disease="Cancer" and Treats.pat_id=Patient.pat_id; 
++----------+ 
+| pat_name | 
++----------+ 
+| Sandesh  | 
+| Amit     | 
++----------+ 
+2 rows in set (0.02 sec) 
+
+6. Display the patient name & doctor name who is treating the cancer patient. 
+select pat_name,doc_name from Patient as p,Doctor as d,Treats as t where disease="Cancer" and d.doc_id=t.doc_id and p.pat_id=t.pat_id; 
++----------+----------+ 
+| pat_name | doc_name | 
++----------+----------+ 
+| Sandesh  | Komal    | 
+| Amit     | Komal    | 
++----------+----------+ 
+2 rows in set (0.00 sec) 
+
+
+7. Display the patient names whose name starts with letter 'a',end with 'a',having a name having exactly 5 letters. 
+select pat_name from Patient where pat_name like "a%"; 
++----------+ 
+| pat_name | 
++----------+ 
+| Aryan    | 
+| Amit     | 
+| Anita    | 
++----------+ 
+3 rows in set (0.00 sec) 
+
+mysql> select pat_name from Patient where pat_name like "%a"; 
++----------+ 
+| pat_name | 
++----------+ 
+| Anita    | 
++----------+ 
+1 row in set (0.00 sec) 
+ 
+mysql> select pat_name from Patient where pat_name like "_ _ _ _ _"; 
++----------+   
+| pat_name | 
++----------+ 
+| Aryan    | 
+| Anita    | 
++----------+ 
+2 rows in set (0.00 sec) 
+
+8. Remove all the records of patient with patient_id=p10. 
+ delete from Patient where pat_id="p10"; 
+Query OK, 1 row affected (0.04 sec) 
+
+mysql> select * from Patient; 
++--------+----------+-------------+------+-----------+ 
+| pat_id | pat_name | DateOfAdmit | age  | city      | 
++--------+----------+-------------+------+-----------+ 
+| a10    | Aryan    | 2017-05-11  |   20 | Mumbai    | 
+| c12    | Amit     | 2017-07-21  |   39 | Bangalore | 
+| d13    | Anita    | 2017-09-25  |   49 | Pune      | 
+| x15    | Suyash   | 2017-04-17  |   29 | Delhi     | 
++--------+----------+-------------+------+-----------+ 
+4 rows in set (0.00 sec) 
+
+select * from Treats; 
++--------+--------+--------------+ 
+| doc_id | pat_id | disease      | 
++--------+--------+--------------+ 
+| w8     | c12    | Cancer       | 
+| e1     | d13    | Toothache    | 
+| s5     | x15    | Heart Attack | 
+| r5     | a10    | Cavities     | 
++--------+--------+--------------+ 
+4 rows in set (0.00 sec) 
+
+9. Remove all the records of doctor Suhas. 
+select * from Treats; 
++--------+--------+--------------+ 
+| doc_id | pat_id | disease      | 
++--------+--------+--------------+ 
+| w8     | c12    | Cancer       | 
+| s5     | x15    | Heart Attack | 
+| r5     | a10    | Cavities     | 
++--------+--------+--------------+ 
+3 rows in set (0.00 sec) 
+
+mysql> select * from Doctor; 
++--------+----------+---------------+------------+------------+-----------+--------+ 
+| doc_id | doc_name | qualification | experience | dept       | city      | salary | 
++--------+----------+---------------+------------+------------+-----------+--------+ 
+| r5     | Yogesh   | MD            |          8 | Dental     | Delhi     |  40000 | 
+| s5     | Mangesh  | MBBS          |         25 | Cardiology | Bangalore | 100000 | 
+| w8     | Komal    | MBBS          |         25 | Chemothera | Kolkata   |  45000 | 
+| y3     | Shubham  | MBBS          |         10 | Cardiology | Mumabi    |  60000 | 
++--------+----------+---------------+------------+------------+-----------+--------+ 
+4 rows in set (0.00 sec) 
+
+10. Change the qualification of doctor Shubham from MBBS to MD. 
+ update Doctor set qualification="MD" where doc_name="Shubham"; 
+Query OK, 1 row affected (0.03 sec) 
+Rows matched: 1  Changed: 1  Warnings: 0 
+
+mysql> select * from Doctor; 
++--------+----------+---------------+------------+------------+-----------+--------+ 
+| doc_id | doc_name | qualification | experience | dept       | city      | salary | 
++--------+----------+---------------+------------+------------+-----------+--------+ 
+| r5     | Yogesh   | MD            |          8 | Dental     | Delhi     |  40000 | 
+| s5     | Mangesh  | MBBS          |         25 | Cardiology | Bangalore | 100000 | 
+| w8     | Komal    | MBBS          |         25 | Chemothera | Kolkata   |  45000 | 
+| y3     | Shubham  | MD            |         10 | Cardiology | Mumabi    |  60000 | 
++--------+----------+---------------+------------+------------+-----------+--------+ 
+4 rows in set (0.00 sec) 
+
+11. Give 5% salary rates to the dentist and 10% raise to cardiologist (in single query). 
+update Doctor set salary=case when dept="Dental" then salary+salary*(0.05) when dept="Cardiology" then salary+salary*(0.1) else salary*1 end; 
+Query OK, 3 rows affected (0.05 sec) 
+Rows matched: 4  Changed: 3  Warnings: 0 
+
+mysql> select * from Doctor; 
++--------+----------+---------------+------------+------------+-----------+--------+ 
+| doc_id | doc_name | qualification | experience | dept       | city      | salary | 
++--------+----------+---------------+------------+------------+-----------+--------+ 
+| r5     | Yogesh   | MD            |          8 | Dental     | Delhi     |  42000 | 
+| s5     | Mangesh  | MBBS          |         25 | Cardiology | Bangalore | 110000 | 
+| w8     | Komal    | MBBS          |         25 | Chemothera | Kolkata   |  45000 | 
+| y3     | Shubham  | MD            |         10 | Cardiology | Mumabi    |  66000 | 
++--------+----------+---------------+------------+------------+-----------+--------+ 
+4 rows in set (0.00 sec) 
+
+12. Display dept wise total salary of doctors. 
+select dept,sum(salary) from Doctor group by dept; 
++------------+-------------+ 
+| dept       | sum(salary) | 
++------------+-------------+ 
+| Cardiology |      176000 | 
+| Chemothera |       45000 | 
+| Dental     |       42000 | 
++------------+-------------+ 
+3 rows in set (0.00 sec) 
+
+13. Find the dept that have the highest avg salary. 
+select dept,avg(salary) from Doctor group by dept having avg(salary)>=all(select avg(salary) from Doctor group by dept); 
++------------+-------------+ 
+| dept       | avg(salary) | 
++------------+-------------+ 
+| Cardiology |  88000.0000 | 
++------------+-------------+ 
+1 row in set (0.00 sec) 
+
+14. Find the avg salary of the doctors in dentist dept. 
+select avg(salary) from Doctor where dept="Dental"; 
++-------------+ 
+| avg(salary) | 
++-------------+ 
+|  42000.0000 | 
++-------------+ 
+1 row in set (0.00 sec) 
+15. Find the dept where avg salary of the instructor is more than 50,000. 
+select dept from Doctor group by dept having avg(salary)>50000; 
++------------+ 
+| dept       | 
++------------+ 
+| Cardiology | 
++------------+ 
+1 row in set (0.02 sec) 
+
+16. Find how many doctors work in hospital. 
+select count(*) from Doctor; 
++----------+ 
+| count(*) | 
++----------+ 
+|        4 | 
++----------+ 
+1 row in set (0.00 sec) 
+
+17. Find out how many doctors actually treated a patient. 
+select count(distinct doc_id) from Treats; 
++------------------------+ 
+| count(distinct doc_id) | 
++------------------------+ 
+|                      3 | 
++------------------------+ 
+1 row in set (0.00 sec) 
+
+18. List the cities in which either doctor or patient lives. 
+select city from Doctor union select city from Patient; 
++-----------+ 
+| city      | 
++-----------+ 
+| Delhi     | 
+| Bangalore | 
+| Kolkata   | 
+| Mumbai    | 
+| Pune      | 
++-----------+ 
+5 rows in set (0.01 sec) 
+
+
+19. List the cities in which both the patient & the doctor lives. 
+select d.city from Doctor as d,Patient as p where d.city=p.city; 
++-----------+ 
+| city      | 
++-----------+ 
+| Mumbai    | 
+| Bangalore | 
+| Delhi     | 
++-----------+ 
+3 rows in set (0.00 sec) 
+
+20. Find out the doctors who have not treated any patient. 
+select doc_name,doc_id from Doctor where doc_id not in(select distinct doc_id from Treats); 
++----------+--------+ 
+| doc_name | doc_id | 
++----------+--------+ 
+| Shubham  | y3     | 
++----------+--------+ 
+1 row in set (0.00 sec) 
+
