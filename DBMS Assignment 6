@@ -1,0 +1,144 @@
+Question No 6
+
+1. Write anonymous code block which will update marks of students, who have scored between 35 to 30 to 40. Using implicit cursor parameters show how many rows have been updated or no rows have been updated.
+
+2. Write an anonymous code block to demonstrate use of explicit cursor for loop and parameterized explicit cursor. Copy the contents of student table to another table new_ student. But before copying check some roll number record exits in 2nd table if so do not copy otherwise copy the record into 2nd table.
+
+query:
+
+Problem Statement:
+
+Write a database trigger on the library.The system should keep track of records that are updated or deleted.The old values of the updated or deleted record should be added in library audit table.
+ 
+Library table(B_id,Title,Edition,no_of_copies)
+
+Library_audit table(B_id,Title,Edition,no_of_copies,date_of_mod,type_of_operation,user who performed the operation)
+
+Transaction table(Transaction id,Book id,Issue or rerurn,no of copies issued or return)
+
+ select * from library;
++------+-------+--------------+---------+---------+
+| B_id | Title | Authors      | Edition | no_of_c |
++------+-------+--------------+---------+---------+
+|    1 | TOC   | V.v Richard  |       2 |       4 |
+|    2 | CN    | Forouzan     |       4 |       5 |
+|    3 | ISEE  | Rahul De     |       3 |       5 |
+|    4 | DBMS  | Silberschatz |       3 |       2 |
+|    5 | SEPM  | Pressman     |       5 |       6 |
++------+-------+--------------+---------+---------+
+5 rows in set (0.00 sec)
+
+1.Create a trigger to keep the track of records that are updated or deleted from the library table .The old values of updated or deleted record should be added in library audit table along with the date of modification ,type of modification and the user who performed the modification.
+
+ create trigger t after update on library for each row begin declare a varchar(10); set a="updated";insert into lib_audit values(old.B_id,old.Title,old.Authors,old.Edition,old.no_of_c,curdate(),a,current_user());end $
+
+update library set Authors="Kapil-Mishra" where B_id=1;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+select * from lib_audit;
++------+-------+-------------+---------+---------+-------------+------------+------------+
+| B_id | Title | Authors     | Edition | no_of_c | date_of_mod | type_of_op | username   |
++------+-------+-------------+---------+---------+-------------+------------+------------+
+|    1 | TOC   | V.v Richard |       2 |       4 | 2017-08-16  | updated    | root@local |
++------+-------+-------------+---------+---------+-------------+------------+------------+
+
+
+create trigger t1 after delete on library for each row begin declare b varchar(10); set b="deleted";insert into lib_audit values(old.B_id,old.Title,old.Authors,old.Edition,old.no_of_c,curdate(),b,current_user());end $
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> delete from library where B_id=3$
+Query OK, 1 row affected (0.04 sec)
+
+select * from lib_audit;
++------+-------+-------------+---------+---------+-------------+------------+------------+
+| B_id | Title | Authors     | Edition | no_of_c | date_of_mod | type_of_op | username   |
++------+-------+-------------+---------+---------+-------------+------------+------------+
+|    1 | TOC   | V.v Richard |       2 |       4 | 2017-08-16  | updated    | root@local |
+|    3 | ISEE  | Rahul De    |       3 |       5 | 2017-08-16  | deleted    | root@local |
++------+-------+-------------+---------+---------+-------------+------------+------------+
+
+
+2.To create a trigger to check the number of copies available before issuing a book if number of copies issuing > the number of books available then issue the number of books which are available.
+
+create trigger t2 before insert on transaction for each row begin declare no int;if new.I_R="I" then select no_of_c into no from library where B_id=new.B_id; if new.no_of_c > no then set new.no_of_c=no;end if;end if;end $
+Query OK, 0 rows affected (0.05 sec)
+
+insert into transaction values(10,1,"I",3);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from transaction;
++----------+------+------+---------+
+| Trans_id | B_id | I_R  | no_of_c |
++----------+------+------+---------+
+|       10 |    2 | I    |       5 |
+|       12 |    1 | I    |       3 |
++----------+------+------+---------+
+
+
+
+3.To update the number of copies available after the book is issued or returned.
+
+delete from transaction;
+
+create trigger t3 after insert on transaction for each row begin if new.I_R="I" then update library set no_of_c=no_of_c-new.no_of_c where B_id=new.B_id;else update library set no_of_c=no_of_c+new.no_of_c where B_id=new.B_id;end if;end $ 
+
+insert into transaction values(10,2,"I",7);
+Query OK, 1 row affected (0.38 sec)
+
+mysql> select * from library;
++------+-------+--------------+---------+---------+
+| B_id | Title | Authors      | Edition | no_of_c |
++------+-------+--------------+---------+---------+
+|    1 | TOC   | Kapil-Mishra |       2 |       4 |
+|    2 | CN    | Forouzan     |       4 |       0 |
+|    4 | DBMS  | Silberschatz |       3 |       2 |
+|    5 | SEPM  | Pressman     |       5 |       6 |
++------+-------+--------------+---------+---------+
+4 rows in set (0.00 sec)
+
+mysql> insert into transaction values(14,5,"I",3);
+Query OK, 1 row affected (0.19 sec)
+
+mysql> select * from library;
++------+-------+--------------+---------+---------+
+| B_id | Title | Authors      | Edition | no_of_c |
++------+-------+--------------+---------+---------+
+|    1 | TOC   | Kapil-Mishra |       2 |       4 |
+|    2 | CN    | Forouzan     |       4 |       0 |
+|    4 | DBMS  | Silberschatz |       3 |       2 |
+|    5 | SEPM  | Pressman     |       5 |       3 |
++------+-------+--------------+---------+---------+
+4 rows in set (0.00 sec)
+
+select * from transaction;
++----------+------+------+---------+
+| Trans_id | B_id | I_R  | no_of_c |
++----------+------+------+---------+
+|       10 |    2 | I    |       5 |
+|       14 |    5 | I    |       3 |
++----------+------+------+---------+
+2 rows in set (0.00 sec)
+
+mysql> insert into transaction values(12,2,"R",3);
+Query OK, 1 row affected (0.37 sec)
+
+mysql> select * from library;
++------+-------+--------------+---------+---------+
+| B_id | Title | Authors      | Edition | no_of_c |
++------+-------+--------------+---------+---------+
+|    1 | TOC   | Kapil-Mishra |       2 |       7 |
+|    2 | CN    | Forouzan     |       4 |       3 |
+|    4 | DBMS  | Silberschatz |       3 |       2 |
+|    5 | SEPM  | Pressman     |       5 |       3 |
++------+-------+--------------+---------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from transaction;
++----------+------+------+---------+
+| Trans_id | B_id | I_R  | no_of_c |
++----------+------+------+---------+
+|       10 |    2 | I    |       5 |
+|       14 |    5 | I    |       3 |
+|       12 |    2 | R    |       3 |
++----------+------+------+---------+
