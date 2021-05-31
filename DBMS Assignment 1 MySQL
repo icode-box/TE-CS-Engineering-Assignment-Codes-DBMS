@@ -1,0 +1,275 @@
+Assignment No. 1                                                            
+
+Query 1 : Create database & list the existing databases
+
+mysql> create database emp_db;
+Query OK, 1 row affected (0.27 sec)
+
+mysql> show databases;
++---------------------+
+| Database            |
++---------------------+
+| emp_db              |
++---------------------+
+9 rows in set (0.08 sec)
+
+mysql> use emp_db;
+Database changed
+
+Query 2:create table and list all tables
+
+mysql> create table Emp(EMPNO int,ENAME varchar(10),Designation varchar(10),joindate Date,SAL float,DeptNO int,PhNo int); 
+Query OK, 0 rows affected (0.28 sec)
+
+Query 3: show the structure of table
+
+mysql> desc Emp;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| EMPNO       | int(11)     | YES  |     | NULL    |       |
+| ENAME       | varchar(10) | YES  |     | NULL    |       |
+| Designation | varchar(10) | YES  |     | NULL    |       |
+| joindate    | date        | YES  |     | NULL    |       |
+| SAL         | float       | YES  |     | NULL    |       |
+| DeptNO      | int(11)     | YES  |     | NULL    |       |
+| PhNo        | bigint(10)     | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+Query 4: add five records in above table
+
+mysql> insert into Emp values(1,"Harshada","Developer","2019-03-03",50000,11,9876543210);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into Emp values(2,"Anjali","MAnager","2019-06-09",50000,21,9878543210);
+Query OK, 1 row affected (0.31 sec)
+
+mysql> insert into Emp values(3,"Vineet","Developer","2019-09-01",50000,31,9878549210);
+Query OK, 1 row affected (0.30 sec)
+
+mysql> insert into Emp values(4,"Vijaya","Clerk","2019-01-01",10000,41,9838249210);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into Emp values(5,"Ashok","Clerk","2019-01-01",10000,51,9238249210);
+Query OK, 1 row affected (0.31 sec)
+
+Query 5: display all records
+
+mysql> select * from Emp;
++-------+----------+-------------+------------+-------+--------+------------+
+| EMPNO | ENAME    | Designation | joindate   | SAL   | DeptNO | PhNo       |
++-------+----------+-------------+------------+-------+--------+------------+
+|     1 | Harshada | Developer   | 2019-03-03 | 50000 |     11 | 9876543210 |
+|     2 | Anjali   | Manager     | 2019-06-09 | 50000 |     21 | 9878543210 |
+|     3 | Vineet   | Developer   | 2019-09-01 | 50000 |     31 | 9878549210 |
+|     4 | Vijaya   | Clerk       | 2019-01-01 | 10000 |     41 | 9838249210 |
+|     5 | Ashok    | Clerk       | 2019-01-01 | 10000 |     51 | 9238249210 |
++-------+----------+-------------+------------+-------+--------+------------+
+5 rows in set (0.00 sec)
+
+
+Query 6: Display all manager staff 
+
+mysql> select * from Emp where  Designation ="Manager";
++-------+--------+-------------+------------+-------+--------+------------+
+| EMPNO | ENAME  | Designation | joindate   | SAL   | DeptNO | PhNo       |
++-------+--------+-------------+------------+-------+--------+------------+
+|     2 | Anjali | Manager     | 2019-06-09 | 50000 |     21 | 9878543210 |
++-------+--------+-------------+------------+-------+--------+------------+
+1 row in set (0.00 sec)
+
+Query 7:Delete the record whose employee no. is 1
+
+mysql> delete from Emp where EMPNO=1;
+Query OK, 1 row affected (0.30 sec)
+
+mysql> select * from Emp;
++-------+--------+-------------+------------+-------+--------+------------+
+| EMPNO | ENAME  | Designation | joindate   | SAL   | DeptNO | PhNo       |
++-------+--------+-------------+------------+-------+--------+------------+
+|     2 | Anjali | Manager     | 2019-06-09 | 50000 |     21 | 9878543210 |
+|     3 | Vineet | Developer   | 2019-09-01 | 50000 |     31 | 9878549210 |
+|     4 | Vijaya | Clerk       | 2019-01-01 | 10000 |     41 | 9838249210 |
+|     5 | Ashok  | Clerk       | 2019-01-01 | 10000 |     51 | 9238249210 |
++-------+--------+-------------+------------+-------+--------+------------+
+4 rows in set (0.00 sec)
+
+Query 8:create department table and insert values
+
+mysql>  create table Dept_Table(Dept_no int(10), Dept_name varchar(20),Building_name varchar(10)); 
+Query OK, 0 rows affected (0.51 sec)
+
+mysql> desc Dept_Table;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| Dept_no       | int(10)     | YES  |     | NULL    |       |
+| Dept_name     | varchar(20) | YES  |     | NULL    |       |
+| Building_name | varchar(10) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql>  insert into Dept_Table values(21,"data_science","build_21");
+Query OK, 1 row affected (0.30 sec)
+
+mysql>  insert into Dept_Table values(31,"Testing","build_31");
+Query OK, 1 row affected (0.31 sec)
+
+mysql>  insert into Dept_Table values(41,"AI","build_41");
+Query OK, 1 row affected (0.05 sec)
+
+mysql>  insert into Dept_Table values(51,"Finance","build_31");
+Query OK, 1 row affected (0.31 sec)
+
+mysql>  insert into Dept_Table values(11,"Quqlity Assurance","build_31");
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from Dept_Table;
+
++---------+-------------------+---------------+
+| Dept_no | Dept_name         | Building_name |
++---------+-------------------+---------------+
+|      21 | data_science      | build_21      |
+|      31 | Testing           | build_31      |
+|      41 | AI                | build_41      |
+|      51 | Finance           | build_31      |
+|      11 | Quqlity Assurance | build_31      |
++---------+-------------------+---------------+
+5 rows in set (0.00 sec)
+
+Query 9: Increase the salary of all clerks by 1000 rupees
+
+mysql> update Emp set SAL=SAL+1000 where Designation="Clerk";
+Query OK, 2 rows affected (0.31 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from Emp;
++-------+--------+-------------+------------+-------+--------+------------+
+| EMPNO | ENAME  | Designation | joindate   | SAL   | DeptNO | PhNo       |
++-------+--------+-------------+------------+-------+--------+------------+
+|     2 | Anjali | Manager     | 2019-06-09 | 50000 |     21 | 9878543210 |
+|     3 | Vineet | Developer   | 2019-09-01 | 50000 |     31 | 9878549210 |
+|     4 | Vijaya | Clerk       | 2019-01-01 | 11000 |     41 | 9838249210 |
+|     5 | Ashok  | Clerk       | 2019-01-01 | 11000 |     51 | 9238249210 |
++-------+--------+-------------+------------+-------+--------+------------+
+4 rows in set (0.00 sec)
+
+Query 10: Add column address in employee table
+
+mysql> alter table Emp add address varchar(20); 
+Query OK, 0 rows affected (0.65 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from Emp;
++-------+--------+-------------+------------+-------+--------+------------+---------+
+| EMPNO | ENAME  | Designation | joindate   | SAL   | DeptNO | PhNo       | address |
++-------+--------+-------------+------------+-------+--------+------------+---------+
+|     2 | Anjali | Manager     | 2019-06-09 | 50000 |     21 | 9878543210 | NULL    |
+|     3 | Vineet | Developer   | 2019-09-01 | 50000 |     31 | 9878549210 | NULL    |
+|     4 | Vijaya | Clerk       | 2019-01-01 | 11000 |     41 | 9838249210 | NULL    |
+|     5 | Ashok  | Clerk       | 2019-01-01 | 11000 |     51 | 9238249210 | NULL    |
++-------+--------+-------------+------------+-------+--------+------------+---------+
+4 rows in set (0.00 sec)
+
+Query 11: Add the records for address field
+
+mysql> update Emp set address="vadgaon,pune" where EMPNO="2";
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Emp set address="camp,pune" where EMPNO="3";
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Emp set address="Hadapsar,pune" where EMPNO="4";
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Emp set address="Sinhgad road,pune" where EMPNO="5";
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Emp;
++-------+--------+-------------+------------+-------+--------+------------+-------------------+
+| EMPNO | ENAME  | Designation | joindate   | SAL   | DeptNO | PhNo       | address           |
++-------+--------+-------------+------------+-------+--------+------------+-------------------+
+|     2 | Anjali | Manager     | 2019-06-09 | 50000 |     21 | 9878543210 | vadgaon,pune      |
+|     3 | Vineet | Developer   | 2019-09-01 | 50000 |     31 | 9878549210 | camp,pune         |
+|     4 | Vijaya | Clerk       | 2019-01-01 | 11000 |     41 | 9838249210 | Hadapsar,pune     |
+|     5 | Ashok  | Clerk       | 2019-01-01 | 11000 |     51 | 9238249210 | Sinhgad road,pune |
++-------+--------+-------------+------------+-------+--------+------------+-------------------+
+4 rows in set (0.00 sec)
+
+Query 12: Drop  the column building name from department table
+
+mysql> alter table Dept_Table drop column Building_name;
+Query OK, 0 rows affected (0.85 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from Dept_Table;
++---------+-------------------+
+| Dept_no | Dept_name         |
++---------+-------------------+
+|      21 | data_science      |
+|      31 | Testing           |
+|      41 | AI                |
+|      51 | Finance           |
+|      11 | Quqlity Assurance |
++---------+-------------------+
+5 rows in set (0.00 sec)
+
+Query 13: Change phone no. Field name to the contact no.
+
+mysql> alter table Emp change PhNo contact_no bigint(10); 
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from Emp;
++-------+--------+-------------+------------+-------+--------+------------+-------------------+
+| EMPNO | ENAME  | Designation | joindate   | SAL   | DeptNO | contact_no | address           |
++-------+--------+-------------+------------+-------+--------+------------+-------------------+
+|     2 | Anjali | Manager     | 2019-06-09 | 50000 |     21 | 9878543210 | vadgaon,pune      |
+|     3 | Vineet | Developer   | 2019-09-01 | 50000 |     31 | 9878549210 | camp,pune         |
+|     4 | Vijaya | Clerk       | 2019-01-01 | 11000 |     41 | 9838249210 | Hadapsar,pune     |
+|     5 | Ashok  | Clerk       | 2019-01-01 | 11000 |     51 | 9238249210 | Sinhgad road,pune |
++-------+--------+-------------+------------+-------+--------+------------+-------------------+
+4 rows in set (0.00 sec)
+
+Query 14: Display the emp records in ascending and descending order by their salary
+
+mysql>  select * from Emp order by SAL asc;
++-------+--------+-------------+------------+-------+--------+------------+-------------------+
+| EMPNO | ENAME  | Designation | joindate   | SAL   | DeptNO | contact_no | address           |
++-------+--------+-------------+------------+-------+--------+------------+-------------------+
+|     4 | Vijaya | Clerk       | 2019-01-01 | 11000 |     41 | 9838249210 | Hadapsar,pune     |
+|     5 | Ashok  | Clerk       | 2019-01-01 | 11000 |     51 | 9238249210 | Sinhgad road,pune |
+|     2 | Anjali | Manager     | 2019-06-09 | 50000 |     21 | 9878543210 | vadgaon,pune      |
+|     3 | Vineet | Developer   | 2019-09-01 | 50000 |     31 | 9878549210 | camp,pune         |
++-------+--------+-------------+------------+-------+--------+------------+-------------------+
+4 rows in set (0.00 sec)
+
+
+mysql>  select * from Emp order by SAL desc;
++-------+--------+-------------+------------+-------+--------+------------+-------------------+
+| EMPNO | ENAME  | Designation | joindate   | SAL   | DeptNO | contact_no | address           |
++-------+--------+-------------+------------+-------+--------+------------+-------------------+
+|     2 | Anjali | Manager     | 2019-06-09 | 50000 |     21 | 9878543210 | vadgaon,pune      |
+|     3 | Vineet | Developer   | 2019-09-01 | 50000 |     31 | 9878549210 | camp,pune         |
+|     4 | Vijaya | Clerk       | 2019-01-01 | 11000 |     41 | 9838249210 | Hadapsar,pune     |
+|     5 | Ashok  | Clerk       | 2019-01-01 | 11000 |     51 | 9238249210 | Sinhgad road,pune |
++-------+--------+-------------+------------+-------+--------+------------+-------------------+
+4 rows in set (0.00 sec)
+
+Query 15: Delete the department table
+
+mysql>  drop table Dept_Table; 
+Query OK, 0 rows affected (0.16 sec)
+
+
+Query 16: Delete the table using truncate command
+
+mysql> truncate table Emp;
+Query OK, 0 rows affected (0.23 sec)
+
+
