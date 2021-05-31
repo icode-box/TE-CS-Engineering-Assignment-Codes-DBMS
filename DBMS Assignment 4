@@ -1,0 +1,280 @@
+Question No -04
+
+Create the bank database with the following table -
+
+1  branch_master(bracnh_id,bname) branch_id is primary key
+2  employee_master(emp_no,e_name,branch_id,salary ,dept,manager_id) empno primary key ,    
+branch_id,manager_idforieignkey
+3  contact details(empid,emailid,phnno)emp_idforieign key and apply on delete set null constraint   
+onemp_id
+4  emp_address_details(emp_id,street ,city,state)apply a foreign on emp_id  also apply on delete
+cascade constraint
+5  branch_address(branch_id,city,state)branch_id is foreign key
+
+  *Insert 5 records in each table
+
+1 list the employee details along with the branch name using inner join and in order of employee  
+no.
+2 list the details of employees who belong to admin dept along the branch name to which they   
+belong.
+3 list the employee name along with the phn no and city(using inner join).
+4 list the employee name with the contact details if any. ---left join
+   (delete first 2 employees)
+5 list the employee contact details irrespective of whether they are working or have left.
+6 retrieve the employee name and their respective manager name.
+7 list the employee details along with the branch name using natural join.
+8. List the employee names who work at vadgaon branch along with the city of that employee.
+9 find the employee who works at vadgaon branch with salaries more than 10000.list the employee    
+names with the streets and city they live in.
+10 find the employees who live and work in same city.
+11 find the employee whose salary are more than the salary of everybody who works at branch
+vadgaon.
+12 create a view which will contain total employees at each branch.
+13 list the branch name where employee have a salary more than 100000.
+14 create a view which will show the avgsalaryand the total salary at each branch.
+15 find the employee who do not have a job at vadgaon branch.
+
+Query:
+
+Create a bank databse with following tables:
+Branch master(branch_id,branch_name)
+
+Employee master(emp_no,emp_name,branch_id,salary,Dept,manager_id) (manager_id & branch_id is foreign key)
+
+Conatct details(emp_id,email_id,phone_no) (Apply on delete set null constraint & foreign key on emp_id)
+
+EmpAddress details(emp_id,street,city,state) (Apply on delete set cascade constraint & foreign key on emp_id)
+
+Branch address(branch_id,city,state)(branch_id is foreign key)
+
+    1. Insert 5 records in each table.
+              select * from Branchmaster; 
++-----------+--------------+ 
+| branch_id | branch_name  | 
++-----------+--------------+ 
+|         1 | Vadgaon      | 
+|         2 | Park street  | 
+|         3 | Panvel       | 
+|         4 | Pimpri       | 
+|         5 | Model colony | 
++-----------+--------------+ 
+5 rows in set (0.00 sec) 
+select * from Empmaster; 
++--------+----------+-----------+--------+-----------+------------+ 
+| emp_id | emp_name | branch_id | salary | dept      | manager_id | 
++--------+----------+-----------+--------+-----------+------------+ 
+|     10 | Aryan    |         2 |  40000 | Manager   |       NULL | 
+|     11 | Kiran    |         4 |   5000 | Admin     |         10 | 
+|     12 | Carol    |         1 |  60000 | Assistant |         10 | 
+|     13 | Peter    |         3 | 120000 | Senior    |         10 | 
+|     14 | Bob      |         5 | 110000 | HR        |         10 | 
++--------+----------+-----------+--------+-----------+------------+ 
+5 rows in set (0.00 sec) 
+
+select * from contactdetails; 
++--------+-----------------+------------+ 
+| emp_id | email_id        | phone_no   | 
++--------+-----------------+------------+ 
+|     11 | kiran@gmail.com | 9890154761 | 
+|     10 | aryan@gmail.com | 8806058754 | 
+|     13 | peter@hotmail.c | 9373203456 | 
++--------+-----------------+------------+ 
+3 rows in set (0.00 sec) 
+
+select * from Branchaddress; 
++-----------+-----------+-------------+ 
+| branch_id | city      | state       | 
++-----------+-----------+-------------+ 
+|         1 | Pune      | Maharashtra | 
+|         2 | Kolkata   | West Bengal | 
+|         3 | Mumbai    | Maharashtra | 
+|         4 | Bangalore | Karnataka   | 
+|         5 | Cuttack   | Orissa      | 
++-----------+-----------+-------------+ 
+5 rows in set (0.00 sec) 
+
+ select * from Empaddressdetails; 
++--------+------------+-----------+-------------+ 
+| emp_id | street     | city      | state       | 
++--------+------------+-----------+-------------+ 
+|     10 | vadgaon    | Pune      | Maharashtra | 
+|     11 | Link Road  | Mumbai    | Maharashtra | 
+|     12 | Park stree | Kolkata   | West Bengal | 
+|     13 | Roha       | Bangalore | Karnataka   | 
+|     14 | Street roa | Cuttack   | Orissa      | 
++--------+------------+-----------+-------------+ 
+5 rows in set (0.00 sec) 
+
+    2. List the employee details along with branch name using the inner join and in the order of emp_no.
+           select emp_id,emp_name,branch_name from Empmaster e inner join Branchmaster b on e.branch_id=b.branch_id order by emp_id; 
++--------+----------+--------------+ 
+| emp_id | emp_name | branch_name  | 
++--------+----------+--------------+ 
+|     10 | Aryan    | Park street  | 
+|     11 | Kiran    | Pimpri       | 
+|     12 | Carol    | Vadgaon      | 
+|     13 | Peter    | Panvel       | 
+|     14 | Bob      | Model colony | 
++--------+----------+--------------+ 
+5 rows in set (0.02 sec) 
+
+    3. List the details of employee who belong to admin department along with the branch name to which they belong.
+           select emp_name,dept,branch_name from Branchmaster b,Empmaster e where b.branch_id=e.branch_id and dept="Admin"; 
++----------+-------+-------------+ 
+| emp_name | dept  | branch_name | 
++----------+-------+-------------+ 
+| Kiran    | Admin | Pimpri      | 
++----------+-------+-------------+ 
+1 row in set (0.00 sec) 
+    4. List the employee name along with the phone no and city using inner join.
+     select emp_name,phone_no,city from Empmaster e inner join Empaddressdetails a on e.emp_id=a.emp_id inner join contactdetails c on e.emp_id=c.emp_id; 
++----------+------------+-----------+ 
+| emp_name | phone_no   | city      | 
++----------+------------+-----------+ 
+| Aryan    | 8806058754 | Pune      | 
+| Kiran    | 9890154761 | Mumbai    | 
+| Peter    | 9373203456 | Bangalore | 
++----------+------------+-----------+ 
+3 rows in set (0.00 sec) 
+    5. List the employee name with the contact details (if any).
+select emp_name,email_id,phone_no from Empmaster e left join contactdetails c on e.emp_id=c.emp_id; 
++----------+-----------------+------------+ 
+| emp_name | email_id        | phone_no   | 
++----------+-----------------+------------+ 
+| Aryan    | aryan@gmail.com | 8806058754 | 
+| Kiran    | kiran@gmail.com | 9890154761 | 
+| Bob      | NULL            |       NULL | 
++----------+-----------------+------------+ 
+3 rows in set (0.00 sec) 
+    6. List the employee contact details irrespective of whether they are working or have left.
+           delete from Empmaster where emp_id=12; 
+Query OK, 1 row affected (0.04 sec) 
+
+mysql> delete from Empmaster where emp_id=13; 
+Query OK, 1 row affected (0.03 sec) 
+
+mysql> select * from Empmaster; 
++--------+----------+-----------+--------+---------+------------+ 
+| emp_id | emp_name | branch_id | salary | dept    | manager_id | 
++--------+----------+-----------+--------+---------+------------+ 
+|     10 | Aryan    |         2 |  40000 | Manager |       NULL | 
+|     11 | Kiran    |         1 |   20000 | Admin   |         10 | 
+|     14 | Bob      |         5 | 110000 | HR      |         10 | 
++--------+----------+-----------+--------+---------+------------+ 
+3 rows in set (0.00 sec) 
+
+select emp_name,email_id,phone_no from Empmaster e right join contactdetails c on e.emp_id=c.emp_id; 
++----------+-----------------+------------+ 
+| emp_name | email_id        | phone_no   | 
++----------+-----------------+------------+ 
+| Kiran    | kiran@gmail.com | 9890154761 | 
+| Aryan    | aryan@gmail.com | 8806058754 | 
+| NULL     | peter@hotmail.c | 9373203456 | 
++----------+-----------------+------------+ 
+3 rows in set (0.00 sec) 
+  
+    7. Retrieve the employee name and their respective manager name.
+            select e1.emp_name,e2.emp_name as Manager from Empmaster e1,Empmaster e2 where e1.manager_id=e2.emp_id; 
++----------+---------+ 
+| emp_name | Manager | 
++----------+---------+ 
+| Kiran    | Aryan   | 
+| Bob      | Aryan   | 
++----------+---------+ 
+2 rows in set (0.00 sec) 
+    8. List the employee details along with branch name using natural join.
+             select emp_name,dept,branch_name,salary from Branchmaster b natural join Empmaster e; 
++----------+---------+--------------+--------+ 
+| emp_name | dept    | branch_name  | salary | 
++----------+---------+--------------+--------+ 
+| Aryan    | Manager | Park street  |  40000 | 
+| Kiran    | Admin   | Pimpri       |   20000 | 
+| Bob      | HR      | Model colony | 110000 | 
++----------+---------+--------------+--------+ 
+3 rows in set (0.00 sec) 
+    9. List the employee names who work at the vadgaon branch along with the city of that employee.
+             select e.emp_id,emp_name,city from Empmaster e,Branchmaster b,Empaddressdetails a where b.branch_name="Vadgaon" and b.branch_id=e.branch_id and e.emp_id=a.emp_id; 
++--------+----------+--------+ 
+| emp_id | emp_name | city   | 
++--------+----------+--------+ 
+|     11 | Kiran    | Mumbai | 
++--------+----------+--------+ 
+1 row in set (0.00 sec) 
+    10. Find the employee who works at the vadgaon branch with salary>10000 and list the employee names with streets and city they live in.
+                select emp_name,street,city,salary from Empmaster e,Empaddressdetails a where e.emp_id=a.emp_id and e.emp_id in(select emp_id from Branchmaster b,Empmaster c where branch_name="Vadgaon" and salary>10000 and b.branch_id=c.branch_id); 
++----------+-----------+--------+--------+ 
+| emp_name | street    | city   | salary | 
++----------+-----------+--------+--------+ 
+| Kiran    | Link Road | Mumbai |  20000 | 
++----------+-----------+--------+--------+ 
+1 row in set (0.00 sec) 
+    11. Find the employees who live and work in same city.
+select emp_name from Empmaster e,Branchmaster b,Empaddressdetails a,Branchaddress c where e.emp_id=a.emp_id and b.branch_id=e.branch_id and c.branch_id=b.branch_id and c.city=a.city; 
++----------+ 
+| emp_name | 
++----------+ 
+| Bob      | 
++----------+ 
+1 row in set (0.00 sec) 
+    12. Find the employees whose salaries are more than everybody who works at branch vadgaon.
+             select emp_name from Empmaster where salary>all(select salary from Empmaster e,Branchmaster b where e.branch_id=b.branch_id and branch_name="Vadgaon"); 
++----------+ 
+| emp_name | 
++----------+ 
+| Aryan    | 
+| Bob      | 
++----------+ 
+2 rows in set (0.00 sec) 
+    13. Create a view which will contain total employees at each branch.
+             create view TotEmp as select branch_name,count(emp_id) as TotalEmployees from Empmaster e,Branchmaster b where e.branch_id=b.branch_id group by e.branch_id; 
+Query OK, 0 rows affected (0.04 sec) 
+
+mysql> select * from TotEmp; 
++--------------+----------------+ 
+| branch_name  | TotalEmployees | 
++--------------+----------------+ 
+| Vadgaon      |              1 | 
+| Park street  |              1 | 
+| Panvel       |              1 | 
+| Pimpri       |              3 | 
+| Model colony |              1 | 
++--------------+----------------+ 
+5 rows in set (0.00 sec) 
+
+    14. List the branch names where employee have a salary>100000.
+                 select branch_name from Empmaster e,Branchmaster b where e.branch_id=b.branch_id and salary>100000; 
++--------------+ 
+| branch_name  | 
++--------------+ 
+| Model colony | 
++--------------+ 
+1 row in set (0.00 sec) 
+    15. Create a view which will show the avg salary and the total salary at each branch.
+                 create view Emp as select branch_name,avg(salary),sum(salary) from Empmaster e,Branchmaster b where e.branch_id=b.branch_id group by e.branch_id; 
+Query OK, 0 rows affected (0.05 sec) 
+
+mysql> select * from Emp; 
++--------------+-------------+-------------+ 
+| branch_name  | avg(salary) | sum(salary) | 
++--------------+-------------+-------------+ 
+| Vadgaon      |  20000.0000 |       20000 | 
+| Park street  |  40000.0000 |       40000 | 
+| Panvel       |  12000.0000 |       12000 | 
+| Pimpri       |  14000.0000 |       42000 | 
+| Model colony | 110000.0000 |      110000 | 
++--------------+-------------+-------------+ 
+5 rows in set (0.03 sec) 
+    16. Find the employee who do not have a job at vadgaon branch.
+         
+       select emp_name from Empmaster e,Branchmaster b where e.branch_id=b.branch_id and e.branch_id not in(select branch_id from Branchmaster where branch_name="vadgaon"); 
+    17. +----------+ 
+    18. | emp_name | 
+    19. +----------+ 
+    20. | Aryan    | 
+    21. | Nil      | 
+    22. | Yog      | 
+    23. | Yog      | 
+    24. | Yog      | 
+    25. | Bob      | 
+    26. +----------+ 
+    27. 6 rows in set (0.00 sec) 
