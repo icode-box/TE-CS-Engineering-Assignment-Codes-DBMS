@@ -1,0 +1,89 @@
+Question No 5
+Create the following tables
+
+1. Borrower(roll_in,name,date_of_issue,name_of_book,status)
+2.Fine(roll_in,date,amount)
+
+Write PL/SQL block for the following requirements
+
+A. Accept the roll_no and name of the book from user 
+B. check the no of dates(from date_of_issue)
+	a.if the no of days are between 15 to 30 days then fine amount wll be Rs.5/day
+	b.if the no of days>30 per day fine will be 50per day and  after submitting the book the status will change from i to r if the condition of fine is true then details will be stored into the fine table
+use of control structure and exception handling is mandatory
+
+Query:
+
+Create the table 
+Student marks(Name,Total marks)
+Result(Roll_No,Name,Class)
+
+Write a stored procedure namely procedure_grade for the categorization of the student if marks scored by the student in examination is <=1500 and marks>=990 then student will be placed in distinction category.If marks scored are between 989 and 900 then category is 1st  class,if marks are between 899 and 825 then category is higher 2nd  class.
+
+create procedure proc_grade(in rollno tinyint,in name varchar(15),in marks int) begin declare class varchar(25); if marks>=990 and marks<=1500 then set class="Distinction"; elseif marks<=989 and marks>=900 then set class="First Class"; elseif marks<=899 and marks>=825 then set class="Second Class"; elseif marks<=824 and marks>=700 then set class="Pass"; else set class="Fail"; end if; insert into studmarks values(name,marks);insert into result values(rollno,name,class);end$ 
+
+call proc_grade(1,"Aryan",850); 
+Query OK, 1 row affected (0.06 sec) 
+
+mysql> call proc_grade(2,"Peter",1000); 
+Query OK, 1 row affected (0.06 sec) 
+
+mysql> call proc_grade(3,"Smith",834); 
+Query OK, 1 row affected (0.07 sec) 
+
+mysql> call proc_grade(4,"Carol",750); 
+Query OK, 1 row affected (0.07 sec) 
+
+call proc_grade(5,"Bob",950); 
+Query OK, 1 row affected (0.07 sec) 
+
+ call proc_grade(6,"Sam",650); 
+Query OK, 1 row affected (0.06 sec) 
+
+select * from result; 
++---------+-------+--------------+ 
+| Roll_No | Name  | Class        | 
++---------+-------+--------------+ 
+|       1 | Aryan | Second Class | 
+|       2 | Peter | Distinction  | 
+|       3 | Smith | Second Class | 
+|       4 | Carol | Pass         | 
+|       5 | Bob   | First Class  | 
+|       6 | Sam   | Fail         | 
++---------+-------+--------------+ 
+6 rows in set (0.00 sec) 
+
+mysql> select * from studmarks; 
++-------+------------+ 
+| Name  | TotalMarks | 
++-------+------------+ 
+| Aryan |        850 | 
+| Peter |       1000 | 
+| Smith |        834 | 
+| Carol |        750 | 
+| Bob   |        950 | 
+| Sam   |        650 | 
++-------+------------+ 
+6 rows in set (0.00 sec) 
+
+Create a function which will return total students in a given class.
+
+create function tot_stud(classname varchar(25)) returns int begin declare total int(20); select distinct count(*) into total from result where Class=classname;return total;end $
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> select tot_stud("Second Class");
++--------------------------+
+| tot_stud("Second Class") |
++--------------------------+
+|                        2 |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> select tot_stud("Pass");
++------------------+
+| tot_stud("Pass") |
++------------------+
+|                1 |
++------------------+
+1 row in set (0.00 sec)
