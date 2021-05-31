@@ -1,0 +1,298 @@
+Question 2 
+Problem statement :
+Create the University Database having following specifications:
+
+1. Department table(dept_no, dept_name, building_name )
+     Apply Unique constraint on name field.
+2. Instructor table(ins_id, ins_name, dept_no, salary, mob_no )
+    Apply NOT NULL constraint on name field.
+3. Course table(course_id, title, dept_no, credits )
+4. Teaches table(teacher_id, course_id, semester, year )
+
+Query:
+
+1.  Add the primary key in department table.
+2. Add the foreign key in instructor table.
+3. Modify the table department by adding a column budget.
+4. Create unique index on mobile number of instructor table.
+5. Create a view of instructor relation except the salary field.
+6. Insert record into instructor table using newly created viewname.
+7. Update the department number of particular instructor using update view.
+8. Delete record of particular instructor from instructor table using newly created viewname.
+9. Delete the last view.
+10. Remove the Budget from department table.
+11. Increase the size of the title field of course relation.
+12. Create a view by showing a instructor name with a department name and its salary.
+13. Update salary of particular instructor using update view.
+14. Delete the index from the instructor table.
+15. Rename the course table to another table name.
+16. Create a view by showing a instructor name and title of course in teacher.
+17. Delete the primary key from the department table.   
+18. Add table student (s_id, s_name, dno->foreign key , birthdate) s_id field should be auto increment.
+19. Insert record in student.
+20. Display the teachers of computer department who teach in 5th semester.
+21. Change the starting position of s_id field.
+
+code:
+
+mysql> create database asg2; 
+Query OK, 1 row affected (0.00 sec) 
+
+mysql> use asg2; 
+Database changed 
+mysql> create table customer(cid int(10),cname varchar(10),city varchar(10),DOB date); 
+Query OK, 0 rows affected (0.06 sec) 
+
+mysql> create table account(accno int(10),cid int(10),balance int(10)); 
+Query OK, 0 rows affected (0.06 sec) 
+
+mysql> create table loan(lnno int(10),cid int(10),amount int(10),duration int(10)); 
+Query OK, 0 rows affected (0.06 sec) 
+
+mysql> alter table customer add primary key(cid); 
+Query OK, 0 rows affected (0.26 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
+
+mysql> alter table account add primary key(accno); 
+Query OK, 0 rows affected (0.14 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
+
+mysql> alter table account add foreign key(cid) references customer(cid); 
+Query OK, 0 rows affected (0.13 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
+
+mysql> alter table loan add primary key(lnno); 
+Query OK, 0 rows affected (0.13 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
+
+mysql> alter table loan add foreign key(cid) references customer(cid); 
+Query OK, 0 rows affected (0.13 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
+
+mysql> desc customer; 
++-------+-------------+------+-----+---------+-------+ 
+| Field | Type        | Null | Key | Default | Extra | 
++-------+-------------+------+-----+---------+-------+ 
+| cid   | int(10)     | NO   | PRI | 0       |       | 
+| cname | varchar(10) | YES  |     | NULL    |       | 
+| city  | varchar(10) | YES  |     | NULL    |       | 
+| DOB   | date        | YES  |     | NULL    |       | 
++-------+-------------+------+-----+---------+-------+ 
+4 rows in set (0.00 sec) 
+
+mysql> insert into customer values(1,'abc','pune','1999-06-16'),(2,'pqr','mumbai','1995-09-09'),(3,'lmn','nagpur,'1990-04-02,),(4,'stu','goa','1993-07-11'); 
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1990-04-02,),(4,'stu','goa','1993-07-11')' at line 1 
+mysql>  insert into customer values(1,'abc','pune','1999-06-16'),(2,'pqr','mumbai','1995-09-09'),(3,'lmn','nagpur','1990-04-02'),(4,'stu','goa','1993-07-11'); 
+Query OK, 4 rows affected (0.04 sec) 
+Records: 4  Duplicates: 0  Warnings: 0 
+
+mysql> desc account; 
++---------+---------+------+-----+---------+-------+ 
+| Field   | Type    | Null | Key | Default | Extra | 
++---------+---------+------+-----+---------+-------+ 
+| accno   | int(10) | NO   | PRI | 0       |       | 
+| cid     | int(10) | YES  | MUL | NULL    |       | 
+| balance | int(10) | YES  |     | NULL    |       | 
++---------+---------+------+-----+---------+-------+ 
+3 rows in set (0.00 sec) 
+
+mysql> insert into account values(222,2,20000),(333,3,30000),(111,1,10000),(444,4,40000); 
+Query OK, 4 rows affected (0.04 sec) 
+Records: 4  Duplicates: 0  Warnings: 0 
+
+mysql> desc loan; 
++----------+---------+------+-----+---------+-------+ 
+| Field    | Type    | Null | Key | Default | Extra | 
++----------+---------+------+-----+---------+-------+ 
+| lnno     | int(10) | NO   | PRI | 0       |       | 
+| cid      | int(10) | YES  | MUL | NULL    |       | 
+| amount   | int(10) | YES  |     | NULL    |       | 
+| duration | int(10) | YES  |     | NULL    |       | 
++----------+---------+------+-----+---------+-------+ 
+4 rows in set (0.00 sec) 
+
+mysql> insert into loan values(33,3,3000,13),(11,1,1000,11),(22,2,2000,12),(44,4,4000,14); 
+Query OK, 4 rows affected (0.03 sec) 
+Records: 4  Duplicates: 0  Warnings: 0 
+
+mysql> select * from customer; 
++-----+-------+--------+------------+ 
+| cid | cname | city   | DOB        | 
++-----+-------+--------+------------+ 
+|   1 | abc   | pune   | 1999-06-16 | 
+|   2 | pqr   | mumbai | 1995-09-09 | 
+|   3 | lmn   | nagpur | 1990-04-02 | 
+|   4 | stu   | goa    | 1993-07-11 | 
++-----+-------+--------+------------+ 
+4 rows in set (0.01 sec) 
+
+mysql> select * from account; 
++-------+------+---------+ 
+| accno | cid  | balance | 
++-------+------+---------+ 
+|   111 |    1 |   10000 | 
+|   222 |    2 |   20000 | 
+|   333 |    3 |   30000 | 
+|   444 |    4 |   40000 | 
++-------+------+---------+ 
+4 rows in set (0.00 sec) 
+
+mysql> select * from loan; 
++------+------+--------+----------+ 
+| lnno | cid  | amount | duration | 
++------+------+--------+----------+ 
+|   11 |    1 |   1000 |       11 | 
+|   22 |    2 |   2000 |       12 | 
+|   33 |    3 |   3000 |       13 | 
+|   44 |    4 |   4000 |       14 | 
++------+------+--------+----------+ 
+4 rows in set (0.00 sec) 
+
+mysql> create view view1 as select cid,cname,city,DOB from customer; 
+Query OK, 0 rows affected (0.03 sec) 
+
+mysql> create view view2 as select cname,balance from customer,account where customer.cid=account.cid; 
+Query OK, 0 rows affected (0.04 sec) 
+
+mysql> select * from view2; 
++-------+---------+ 
+| cname | balance | 
++-------+---------+ 
+| abc   |   10000 | 
+| pqr   |   20000 | 
+| lmn   |   30000 | 
+| stu   |   40000 | 
++-------+---------+ 
+4 rows in set (0.00 sec) 
+
+
+mysql> create view view3 as select cname,balance,amount from customer,account,loan where customer.cid=account.cid && customer.cid=loan.cid; 
+Query OK, 0 rows affected (0.03 sec) 
+
+mysql> select * from view3; 
++-------+---------+--------+ 
+| cname | balance | amount | 
++-------+---------+--------+ 
+| abc   |   10000 |   1000 | 
+| pqr   |   20000 |   2000 | 
+| lmn   |   30000 |   3000 | 
+| stu   |   40000 |   4000 | 
++-------+---------+--------+ 
+4 rows in set (0.00 sec) 
+
+mysql> insert into view1 values(9,'bcd','khed','1999-03-16'),(7,'hij','delhi','1991-05-09'); 
+Query OK, 2 rows affected (0.04 sec) 
+Records: 2  Duplicates: 0  Warnings: 0 
+
+mysql> select * from view1; 
++-----+-------+--------+------------+ 
+| cid | cname | city   | DOB        | 
++-----+-------+--------+------------+ 
+|   1 | abc   | pune   | 1999-06-16 | 
+|   2 | pqr   | mumbai | 1995-09-09 | 
+|   3 | lmn   | nagpur | 1990-04-02 | 
+|   4 | stu   | goa    | 1993-07-11 | 
+|   7 | hij   | delhi  | 1991-05-09 | 
+|   9 | bcd   | khed   | 1999-03-16 | 
++-----+-------+--------+------------+ 
+6 rows in set (0.00 sec) 
+
+mysql> update view1 set DOB='1995-04-02' where DOB='1990-04-02'; 
+Query OK, 1 row affected (0.04 sec) 
+Rows matched: 1  Changed: 1  Warnings: 0 
+
+mysql> select * from view1; 
++-----+-------+--------+------------+ 
+| cid | cname | city   | DOB        | 
++-----+-------+--------+------------+ 
+|   1 | abc   | pune   | 1999-06-16 | 
+|   2 | pqr   | mumbai | 1995-09-09 | 
+|   3 | lmn   | nagpur | 1995-04-02 | 
+|   4 | stu   | goa    | 1993-07-11 | 
+|   7 | hij   | delhi  | 1991-05-09 | 
+|   9 | bcd   | khed   | 1999-03-16 | 
++-----+-------+--------+------------+ 
+6 rows in set (0.00 sec) 
+
+mysql> delete from view1 where city='pune'; 
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`asg2`.`account`, CONSTRAINT `account_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `customer` (`cid`)) 
+mysql> alter table account drop foreign key(cid); 
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(cid)' at line 1 
+mysql> alter table account drop foreign key; 
+ERROR 1005 (HY000): Can't create table 'asg2.#sql-41c_28' (errno: 150) 
+mysql> show create table account; 
++---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ 
+| Table   | Create Table                                                                                                                                                                                                                                                                                          | 
++---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ 
+| account | CREATE TABLE `account` ( 
+  `accno` int(10) NOT NULL DEFAULT '0', 
+  `cid` int(10) DEFAULT NULL, 
+  `balance` int(10) DEFAULT NULL, 
+  PRIMARY KEY (`accno`), 
+  KEY `cid` (`cid`), 
+  CONSTRAINT `account_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `customer` (`cid`) 
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 | 
++---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ 
+1 row in set (0.00 sec) 
+
+mysql> alter table account drop foreign key account_ibfk_1; 
+Query OK, 4 rows affected (0.21 sec) 
+Records: 4  Duplicates: 0  Warnings: 0 
+
+mysql> show create table loan; 
++-------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ 
+| Table | Create Table                                                                                                                                                                                                                                                                                                                    | 
++-------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ 
+| loan  | CREATE TABLE `loan` ( 
+  `lnno` int(10) NOT NULL DEFAULT '0', 
+  `cid` int(10) DEFAULT NULL, 
+  `amount` int(10) DEFAULT NULL, 
+  `duration` int(10) DEFAULT NULL, 
+  PRIMARY KEY (`lnno`), 
+  KEY `cid` (`cid`), 
+  CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `customer` (`cid`) 
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 | 
++-------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ 
+1 row in set (0.00 sec) 
+
+mysql> alter table loan drop foreign key loan_ibfk_1; 
+Query OK, 4 rows affected (0.16 sec) 
+Records: 4  Duplicates: 0  Warnings: 0 
+
+mysql> delete from view1 where city='pune'; 
+Query OK, 1 row affected (0.03 sec) 
+
+mysql> select * from customer; 
++-----+-------+--------+------------+ 
+| cid | cname | city   | DOB        | 
++-----+-------+--------+------------+ 
+|   2 | pqr   | mumbai | 1995-09-09 | 
+|   3 | lmn   | nagpur | 1995-04-02 | 
+|   4 | stu   | goa    | 1993-07-11 | 
+|   7 | hij   | delhi  | 1991-05-09 | 
+|   9 | bcd   | khed   | 1999-03-16 | 
++-----+-------+--------+------------+ 
+5 rows in set (0.00 sec) 
+
+mysql> create index i1 on customer(cname); 
+Query OK, 0 rows affected (0.11 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
+
+mysql> create index i2 on account(cid); 
+Query OK, 0 rows affected (0.16 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
+
+mysql> show indexes from customer; 
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+ 
+| Table    | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | 
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+ 
+| customer |          0 | PRIMARY  |            1 | cid         | A         |           2 |     NULL | NULL   |      | BTREE      |         |               | 
+| customer |          1 | i1       |            1 | cname       | A         |           5 |     NULL | NULL   | YES  | BTREE      |         |               | 
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+ 
+2 rows in set (0.00 sec) 
+
+mysql> drop index cname from customer; 
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from customer' at line 1 
+mysql> drop index i1 on customer; 
+Query OK, 0 rows affected (0.09 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
