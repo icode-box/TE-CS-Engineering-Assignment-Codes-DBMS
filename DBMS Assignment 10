@@ -1,0 +1,884 @@
+
+Create an Articles Collection and perform basic operations (CRUD) like Insert, Display, Update and Delete operations. Eg.Articles(Tittle, Content, Author, Author_age, Dop, Category, Comment). Comment is an embedded document also an array. Comment may consists of Name, Remarks keys. Also perform the following Queries using logical operators 
+
+    1. Insert couple of Documents. 
+db.ar.find().pretty()
+{
+	"_id" : ObjectId("59b77c07afd8d3e6b05304d7"),
+	"Title" : "C",
+	"Content" : "Procedural language",
+	"Author" : "Yashwant Kanetkar",
+	"Author_age" : 25,
+	"DOP" : ISODate("2016-05-13T00:00:00Z"),
+	"Category" : "IT",
+	"Comment" : [
+		{
+			"Name" : "Sandesh",
+			"Remarks" : "Very Good"
+		},
+		{
+			"Name" : "Ravi",
+			"Remarks" : "Nice"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77d2cafd8d3e6b05304d8"),
+	"Title" : "C++",
+	"Content" : "OOP",
+	"Author" : "Robert Lafore",
+	"Author_age" : 35,
+	"DOP" : ISODate("2010-07-16T00:00:00Z"),
+	"Category" : "IT",
+	"Comment" : [
+		{
+			"Name" : "Rishi",
+			"Remarks" : "Good"
+		},
+		{
+			"Name" : "Carol",
+			"Remarks" : "Ok"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77e72afd8d3e6b05304d9"),
+	"Title" : "Java",
+	"Content" : "OOP",
+	"Author" : "HeadFirst",
+	"Author_age" : 45,
+	"DOP" : ISODate("2000-01-16T00:00:00Z"),
+	"Category" : "COMP",
+	"Comment" : [
+		{
+			"Name" : "Rohan",
+			"Remarks" : "Okay"
+		},
+		{
+			"Name" : "Julie",
+			"Remarks" : "Not nice"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77f2fafd8d3e6b05304da"),
+	"Title" : "CN",
+	"Content" : "computer networks",
+	"Author" : "Forouzan",
+	"Author_age" : 55,
+	"DOP" : ISODate("2004-09-16T00:00:00Z"),
+	"Category" : "IT",
+	"Comment" : [
+		{
+			"Name" : "Sohan",
+			"Remarks" : "Best"
+		},
+		{
+			"Name" : "Sam",
+			"Remarks" : "Great"
+		}
+	]
+}
+    2. Display  the fisrt document found in db;
+ db.ar.findOne();
+{
+	"_id" : ObjectId("59b77c07afd8d3e6b05304d7"),
+	"Title" : "C",
+	"Content" : "Procedural language",
+	"Author" : "Yashwant Kanetkar",
+	"Author_age" : 25,
+	"DOP" : ISODate("2016-05-13T00:00:00Z"),
+	"Category" : "IT",
+	"Comment" : [
+		{
+			"Name" : "Sandesh",
+			"Remarks" : "Very Good"
+		},
+		{
+			"Name" : "Ravi",
+			"Remarks" : "Nice"
+		}
+	]
+}
+    3. Display first document belonging to a certain Author say “Sharma” found in db.
+db.ar.findOne({Author:"Robert Lafore"})
+{
+	"_id" : ObjectId("59b77d2cafd8d3e6b05304d8"),
+	"Title" : "C++",
+	"Content" : "OOP",
+	"Author" : "Robert Lafore",
+	"Author_age" : 35,
+	"DOP" : ISODate("2010-07-16T00:00:00Z"),
+	"Category" : "IT",
+	"Comment" : [
+		{
+			"Name" : "Rishi",
+			"Remarks" : "Good"
+		},
+		{
+			"Name" : "Carol",
+			"Remarks" : "Ok"
+		}
+	]
+}
+    4. Modify the comment made by certain person on a certain article.
+db.ar.update({Title:"C++","Comment.Name":"Rishi"},{$set:{"Comment.$.Remarks":"Nice"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.ar.findOne({Title:"C++"})
+{
+	"_id" : ObjectId("59b77d2cafd8d3e6b05304d8"),
+	"Title" : "C++",
+	"Content" : "OOP",
+	"Author" : "Robert Lafore",
+	"Author_age" : 35,
+	"DOP" : ISODate("2010-07-16T00:00:00Z"),
+	"Category" : "IT",
+	"Comment" : [
+		{
+			"Name" : "Rishi",
+			"Remarks" : "Nice"
+		},
+		{
+			"Name" : "Carol",
+			"Remarks" : "Ok"
+		}
+	]
+}
+    5. Insert record with save method with and without objectID
+db.ar.save({_id:1,Title:"DBMS",Content:"Database",Author:"Silberscahtz",Author_age:40,DOP:ISODate("2002-06-07"),Category:"Comp",Comment:[{Name:"Shai",Remarks:"Great"},{Name:"Dabang",Remarks:"Okk"}]})
+WriteResult({ "nMatched" : 0, "nUpserted" : 1, "nModified" : 0, "_id" : 1 })
+> db.ar.save({Title:"TOC",Content:"Computation",Author:"Kapil-Mishra",Author_age:44,DOP:ISODate("2005-06-07"),Category:"IT",Comment:[{Name:"Hope",Remarks:"Good Book"},{Name:"Sallu",Remarks:"Nice book!"}]})
+WriteResult({ "nInserted" : 1 })
+> db.ar.find().pretty()
+{
+	"_id" : ObjectId("59b77c07afd8d3e6b05304d7"),
+	"Title" : "C",
+	"Content" : "Procedural language",
+	"Author" : "Yashwant Kanetkar",
+	"Author_age" : 25,
+	"DOP" : ISODate("2016-05-13T00:00:00Z"),
+	"Category" : "IT",
+	"Comment" : [
+		{
+			"Name" : "Sandesh",
+			"Remarks" : "Very Good"
+		},
+		{
+			"Name" : "Ravi",
+			"Remarks" : "Nice"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77d2cafd8d3e6b05304d8"),
+	"Title" : "C++",
+	"Content" : "OOP",
+	"Author" : "Robert Lafore",
+	"Author_age" : 35,
+	"DOP" : ISODate("2010-07-16T00:00:00Z"),
+	"Category" : "IT",
+	"Comment" : [
+		{
+			"Name" : "Rishi",
+			"Remarks" : "Nice"
+		},
+		{
+			"Name" : "Carol",
+			"Remarks" : "Ok"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77e72afd8d3e6b05304d9"),
+	"Title" : "Java",
+	"Content" : "OOP",
+	"Author" : "HeadFirst",
+	"Author_age" : 45,
+	"DOP" : ISODate("2000-01-16T00:00:00Z"),
+	"Category" : "COMP",
+	"Comment" : [
+		{
+			"Name" : "Rohan",
+			"Remarks" : "Okay"
+		},
+		{
+			"Name" : "Julie",
+			"Remarks" : "Not nice"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77f2fafd8d3e6b05304da"),
+	"Title" : "CN",
+	"Content" : "computer networks",
+	"Author" : "Forouzan",
+	"Author_age" : 55,
+	"DOP" : ISODate("2004-09-16T00:00:00Z"),
+	"Category" : "IT",
+	"Comment" : [
+		{
+			"Name" : "Sohan",
+			"Remarks" : "Best"
+		},
+		{
+			"Name" : "Sam",
+			"Remarks" : "Great"
+		}
+	]
+}
+{
+	"_id" : 1,
+	"Title" : "DBMS",
+	"Content" : "Database",
+	"Author" : "Silberscahtz",
+	"Author_age" : 40,
+	"DOP" : ISODate("2002-06-07T00:00:00Z"),
+	"Category" : "Comp",
+	"Comment" : [
+		{
+			"Name" : "Shai",
+			"Remarks" : "Great"
+		},
+		{
+			"Name" : "Dabang",
+			"Remarks" : "Okk"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b8c03b887a715459e9af85"),
+	"Title" : "TOC",
+	"Content" : "Computation",
+	"Author" : "Kapil-Mishra",
+	"Author_age" : 44,
+	"DOP" : ISODate("2005-06-07T00:00:00Z"),
+	"Category" : "IT",
+	"Comment" : [
+		{
+			"Name" : "Hope",
+			"Remarks" : "Good Book"
+		},
+		{
+			"Name" : "Sallu",
+			"Remarks" : "Nice book!"
+		}
+	]
+}
+    6. Update collection with save method.
+{
+	"_id" : 1,
+	"Title" : "DBMS",
+	"Content" : "Database",
+	"Author" : "Silberscahtz",
+	"Author_age" : 40,
+	"DOP" : ISODate("2002-06-07T00:00:00Z"),
+	"Category" : "Comp",
+	"Comment" : [
+		{
+			"Name" : "Shai",
+			"Remarks" : "Great"
+		},
+		{
+			"Name" : "Dabang",
+			"Remarks" : "Okk"
+		}
+	]
+}
+> db.ar.save({_id:1,Title:"DBMS",Content:"Structured Database",Author:"Silber",Author_age:50,DOP:ISODate("2002-06-07"),Category:"Comp",Comment:[{Name:"Shai",Remarks:"Great book"},{Name:"Dabang",Remarks:"Okk"}]})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.ar.findOne({_id:1})
+{
+	"_id" : 1,
+	"Title" : "DBMS",
+	"Content" : "Structured Database",
+	"Author" : "Silber",
+	"Author_age" : 50,
+	"DOP" : ISODate("2002-06-07T00:00:00Z"),
+	"Category" : "Comp",
+	"Comment" : [
+		{
+			"Name" : "Shai",
+			"Remarks" : "Great book"
+		},
+		{
+			"Name" : "Dabang",
+			"Remarks" : "Okk"
+		}
+	]
+}
+    7. Add one more comment for particular title
+ db.ar.update({Title:"TOC"},{$push:{Comment:{Name:"Hope",Remarks:"Bad"}}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.ar.findOne({Title:"TOC"})
+{
+	"_id" : ObjectId("59b8c03b887a715459e9af85"),
+	"Title" : "TOC",
+	"Content" : "Computation",
+	"Author" : "Kapil-Mishra",
+	"Author_age" : 44,
+	"DOP" : ISODate("2005-06-07T00:00:00Z"),
+	"Category" : "IT",
+	"Comment" : [
+		{
+			"Name" : "Hope",
+			"Remarks" : "Good Book"
+		},
+		{
+			"Name" : "Sallu",
+			"Remarks" : "Nice book!"
+		},
+		{
+			"Name" : "Hope",
+			"Remarks" : "Bad"
+		}
+	]
+}
+    8. Change the Category by one name to another i.e IT = Information Technology of all docs.
+ db.ar.update({Category:"IT"},{$set:{Category:"Information Technology"}},{multi:true})
+db.ar.find({Category:"Information Technology"}).pretty()
+{
+	"_id" : ObjectId("59b77c07afd8d3e6b05304d7"),
+	"Title" : "C",
+	"Content" : "Procedural language",
+	"Author" : "Yashwant Kanetkar",
+	"Author_age" : 25,
+	"DOP" : ISODate("2016-05-13T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Sandesh",
+			"Remarks" : "Very Good"
+		},
+		{
+			"Name" : "Ravi",
+			"Remarks" : "Nice"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77d2cafd8d3e6b05304d8"),
+	"Title" : "C++",
+	"Content" : "OOP",
+	"Author" : "Robert Lafore",
+	"Author_age" : 35,
+	"DOP" : ISODate("2010-07-16T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Rishi",
+			"Remarks" : "Nice"
+		},
+		{
+			"Name" : "Carol",
+			"Remarks" : "Ok"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77f2fafd8d3e6b05304da"),
+	"Title" : "CN",
+	"Content" : "computer networks",
+	"Author" : "Forouzan",
+	"Author_age" : 55,
+	"DOP" : ISODate("2004-09-16T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Sohan",
+			"Remarks" : "Best"
+		},
+		{
+			"Name" : "Sam",
+			"Remarks" : "Great"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b8c03b887a715459e9af85"),
+	"Title" : "TOC",
+	"Content" : "Computation",
+	"Author" : "Kapil-Mishra",
+	"Author_age" : 44,
+	"DOP" : ISODate("2005-06-07T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Hope",
+			"Remarks" : "Good Book"
+		},
+		{
+			"Name" : "Sallu",
+			"Remarks" : "Nice book!"
+		},
+		{
+			"Name" : "Hope",
+			"Remarks" : "Bad"
+		}
+	]
+}
+    9. Change the  DateOfPublishing of first article published by “Sharma” found by dbms.
+db.ar.update({Author:"Silber"},{$set:{DOP:ISODate("2001-03-24")}})
+db.ar.find({Author:"Silber"}).pretty()
+{
+	"_id" : 1,
+	"Title" : "DBMS",
+	"Content" : "Structured Database",
+	"Author" : "Silber",
+	"Author_age" : 50,
+	"DOP" : ISODate("2001-03-24T00:00:00Z"),
+	"Category" : "Comp",
+	"Comment" : [
+		{
+			"Name" : "Shai",
+			"Remarks" : "Great book"
+		},
+		{
+			"Name" : "Dabang",
+			"Remarks" : "Okk"
+		}
+	]
+}
+    10. Change the entire document if criteria is matched else insert the document. Show both cases.
+db.ar.update({_id:1},{$set:{Content:"Database"}},{upsert:true})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.ar.find({Author:"Silber"}).pretty()
+{
+	"_id" : 1,
+	"Title" : "DBMS",
+	"Content" : "Database",
+	"Author" : "Silber",
+	"Author_age" : 50,
+	"DOP" : ISODate("2001-03-24T00:00:00Z"),
+	"Category" : "Comp",
+	"Comment" : [
+		{
+			"Name" : "Shai",
+			"Remarks" : "Great book"
+		},
+		{
+			"Name" : "Dabang",
+			"Remarks" : "Okk"
+		}
+	]
+}
+> db.ar.update({Title:"ADS"},{$set:{Title:"ADS",Content:"Data Structure",Author:"Horowitz",Author_age:50,DOP:ISODate("2010-04-23")}},{upsert:true})
+WriteResult({
+	"nMatched" : 0,
+	"nUpserted" : 1,
+	"nModified" : 0,
+	"_id" : ObjectId("59b8c791cec9fe1246a31a13")
+})
+> db.ar.find({Title:"ADS"}).pretty()
+{
+	"_id" : ObjectId("59b8c791cec9fe1246a31a13"),
+	"Title" : "ADS",
+	"Content" : "Data Structure",
+	"Author" : "Horowitz",
+	"Author_age" : 50,
+	"DOP" : ISODate("2010-04-23T00:00:00Z")
+}
+    11. Find authors whose age is greater than 40
+ db.ar.find({Author_age:{$gt:40}}).pretty()
+{
+	"_id" : ObjectId("59b77e72afd8d3e6b05304d9"),
+	"Title" : "Java",
+	"Content" : "OOP",
+	"Author" : "HeadFirst",
+	"Author_age" : 45,
+	"DOP" : ISODate("2000-01-16T00:00:00Z"),
+	"Category" : "COMP",
+	"Comment" : [
+		{
+			"Name" : "Rohan",
+			"Remarks" : "Okay"
+		},
+		{
+			"Name" : "Julie",
+			"Remarks" : "Not nice"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77f2fafd8d3e6b05304da"),
+	"Title" : "CN",
+	"Content" : "computer networks",
+	"Author" : "Forouzan",
+	"Author_age" : 55,
+	"DOP" : ISODate("2004-09-16T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Sohan",
+			"Remarks" : "Best"
+		},
+		{
+			"Name" : "Sam",
+			"Remarks" : "Great"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b8c03b887a715459e9af85"),
+	"Title" : "TOC",
+	"Content" : "Computation",
+	"Author" : "Kapil-Mishra",
+	"Author_age" : 44,
+	"DOP" : ISODate("2005-06-07T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Hope",
+			"Remarks" : "Good Book"
+		},
+		{
+			"Name" : "Sallu",
+			"Remarks" : "Nice book!"
+		},
+		{
+			"Name" : "Hope",
+			"Remarks" : "Bad"
+		}
+	]
+}
+{
+	"_id" : 1,
+	"Title" : "DBMS",
+	"Content" : "Database",
+	"Author" : "Silber",
+	"Author_age" : 50,
+	"DOP" : ISODate("2001-03-24T00:00:00Z"),
+	"Category" : "Comp",
+	"Comment" : [
+		{
+			"Name" : "Shai",
+			"Remarks" : "Great book"
+		},
+		{
+			"Name" : "Dabang",
+			"Remarks" : "Okk"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b8c791cec9fe1246a31a13"),
+	"Title" : "ADS",
+	"Content" : "Data Structure",
+	"Author" : "Horowitz",
+	"Author_age" : 50,
+	"DOP" : ISODate("2010-04-23T00:00:00Z")
+}
+    12. Find authors whose age is in the range of 50 to 80
+db.ar.find({Author_age:{$gt:50,$lt:80}}).pretty()
+{
+	"_id" : ObjectId("59b77f2fafd8d3e6b05304da"),
+	"Title" : "CN",
+	"Content" : "computer networks",
+	"Author" : "Forouzan",
+	"Author_age" : 55,
+	"DOP" : ISODate("2004-09-16T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Sohan",
+			"Remarks" : "Best"
+		},
+		{
+			"Name" : "Sam",
+			"Remarks" : "Great"
+		}
+	]
+}
+    13. Insert multiple comments for a particular title at a time.
+db.ar.update({_id:1},{$push:{Comment:{$each:[{Name:"Kyle",Remarks:"Good book"},{Name:"Danny",Remarks:"Okay"}]}}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.ar.find({_id:1}).pretty()
+{
+	"_id" : 1,
+	"Title" : "DBMS",
+	"Content" : "Database",
+	"Author" : "Silber",
+	"Author_age" : 50,
+	"DOP" : ISODate("2001-03-24T00:00:00Z"),
+	"Category" : "Comp",
+	"Comment" : [
+		{
+			"Name" : "Shai",
+			"Remarks" : "Great book"
+		},
+		{
+			"Name" : "Dabang",
+			"Remarks" : "Okk"
+		},
+		{
+			"Name" : "Kyle",
+			"Remarks" : "Good book"
+		},
+		{
+			"Name" : "Danny",
+			"Remarks" : "Okay"
+		}
+	]
+}
+    14. Display all documents whose title is either Java or category is Comp.
+ db.ar.find({$or:[{Title:"Java"},{Category:"Comp"}]}).pretty()
+{
+	"_id" : ObjectId("59b77e72afd8d3e6b05304d9"),
+	"Title" : "Java",
+	"Content" : "OOP",
+	"Author" : "HeadFirst",
+	"Author_age" : 45,
+	"DOP" : ISODate("2000-01-16T00:00:00Z"),
+	"Category" : "COMP",
+	"Comment" : [
+		{
+			"Name" : "Rohan",
+			"Remarks" : "Okay"
+		},
+		{
+			"Name" : "Julie",
+			"Remarks" : "Not nice"
+		}
+	]
+}
+{
+	"_id" : 1,
+	"Title" : "DBMS",
+	"Content" : "Database",
+	"Author" : "Silber",
+	"Author_age" : 50,
+	"DOP" : ISODate("2001-03-24T00:00:00Z"),
+	"Category" : "Comp",
+	"Comment" : [
+		{
+			"Name" : "Shai",
+			"Remarks" : "Great book"
+		},
+		{
+			"Name" : "Dabang",
+			"Remarks" : "Okk"
+		},
+		{
+			"Name" : "Kyle",
+			"Remarks" : "Good book"
+		},
+		{
+			"Name" : "Danny",
+			"Remarks" : "Okay"
+		}
+	]
+}
+    15. Delete the first article written by certain author found by dbms.
+db.ar.remove({Author:"Forouzan"},{multi:false})
+WriteResult({ "nRemoved" : 1 })
+> db.ar.find().pretty()
+{
+	"_id" : ObjectId("59b77c07afd8d3e6b05304d7"),
+	"Title" : "C",
+	"Content" : "Procedural language",
+	"Author" : "Yashwant Kanetkar",
+	"Author_age" : 25,
+	"DOP" : ISODate("2016-05-13T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Sandesh",
+			"Remarks" : "Very Good"
+		},
+		{
+			"Name" : "Ravi",
+			"Remarks" : "Nice"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77d2cafd8d3e6b05304d8"),
+	"Title" : "C++",
+	"Content" : "OOP",
+	"Author" : "Robert Lafore",
+	"Author_age" : 35,
+	"DOP" : ISODate("2010-07-16T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Rishi",
+			"Remarks" : "Nice"
+		},
+		{
+			"Name" : "Carol",
+			"Remarks" : "Ok"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77e72afd8d3e6b05304d9"),
+	"Title" : "Java",
+	"Content" : "OOP",
+	"Author" : "HeadFirst",
+	"Author_age" : 45,
+	"DOP" : ISODate("2000-01-16T00:00:00Z"),
+	"Category" : "COMP",
+	"Comment" : [
+		{
+			"Name" : "Rohan",
+			"Remarks" : "Okay"
+		},
+		{
+			"Name" : "Julie",
+			"Remarks" : "Not nice"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b8c03b887a715459e9af85"),
+	"Title" : "TOC",
+	"Content" : "Computation",
+	"Author" : "Kapil-Mishra",
+	"Author_age" : 44,
+	"DOP" : ISODate("2005-06-07T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Hope",
+			"Remarks" : "Good Book"
+		},
+		{
+			"Name" : "Sallu",
+			"Remarks" : "Nice book!"
+		},
+		{
+			"Name" : "Hope",
+			"Remarks" : "Bad"
+		}
+	]
+}
+{
+	"_id" : 1,
+	"Title" : "DBMS",
+	"Content" : "Database",
+	"Author" : "Silber",
+	"Author_age" : 50,
+	"DOP" : ISODate("2001-03-24T00:00:00Z"),
+	"Category" : "Comp",
+	"Comment" : [
+		{
+			"Name" : "Shai",
+			"Remarks" : "Great book"
+		},
+		{
+			"Name" : "Dabang",
+			"Remarks" : "Okk"
+		},
+		{
+			"Name" : "Kyle",
+			"Remarks" : "Good book"
+		},
+		{
+			"Name" : "Danny",
+			"Remarks" : "Okay"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b8c791cec9fe1246a31a13"),
+	"Title" : "ADS",
+	"Content" : "Data Structure",
+	"Author" : "Horowitz",
+	"Author_age" : 50,
+	"DOP" : ISODate("2010-04-23T00:00:00Z")
+}
+    16. Delete the all articles written on Politics found by dbms.
+db.ar.remove({Category:"Comp"},{mutli:true})
+WriteResult({ "nRemoved" : 1 })
+> db.ar.find().pretty()
+{
+	"_id" : ObjectId("59b77c07afd8d3e6b05304d7"),
+	"Title" : "C",
+	"Content" : "Procedural language",
+	"Author" : "Yashwant Kanetkar",
+	"Author_age" : 25,
+	"DOP" : ISODate("2016-05-13T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Sandesh",
+			"Remarks" : "Very Good"
+		},
+		{
+			"Name" : "Ravi",
+			"Remarks" : "Nice"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77d2cafd8d3e6b05304d8"),
+	"Title" : "C++",
+	"Content" : "OOP",
+	"Author" : "Robert Lafore",
+	"Author_age" : 35,
+	"DOP" : ISODate("2010-07-16T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Rishi",
+			"Remarks" : "Nice"
+		},
+		{
+			"Name" : "Carol",
+			"Remarks" : "Ok"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b77e72afd8d3e6b05304d9"),
+	"Title" : "Java",
+	"Content" : "OOP",
+	"Author" : "HeadFirst",
+	"Author_age" : 45,
+	"DOP" : ISODate("2000-01-16T00:00:00Z"),
+	"Category" : "COMP",
+	"Comment" : [
+		{
+			"Name" : "Rohan",
+			"Remarks" : "Okay"
+		},
+		{
+			"Name" : "Julie",
+			"Remarks" : "Not nice"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b8c03b887a715459e9af85"),
+	"Title" : "TOC",
+	"Content" : "Computation",
+	"Author" : "Kapil-Mishra",
+	"Author_age" : 44,
+	"DOP" : ISODate("2005-06-07T00:00:00Z"),
+	"Category" : "Information Technology",
+	"Comment" : [
+		{
+			"Name" : "Hope",
+			"Remarks" : "Good Book"
+		},
+		{
+			"Name" : "Sallu",
+			"Remarks" : "Nice book!"
+		},
+		{
+			"Name" : "Hope",
+			"Remarks" : "Bad"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59b8c791cec9fe1246a31a13"),
+	"Title" : "ADS",
+	"Content" : "Data Structure",
+	"Author" : "Horowitz",
+	"Author_age" : 50,
+	"DOP" : ISODate("2010-04-23T00:00:00Z")
+}
+
+ 
+
+
