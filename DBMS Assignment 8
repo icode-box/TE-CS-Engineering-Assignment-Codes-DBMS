@@ -1,0 +1,167 @@
+Problem Statement:
+
+1.Write an anonymous code block which will update marks of students to 40 if he has scored between 35 to 39.Using implicit cursor parameters show database whether any records have been updated or not.If updated,display how many records have been updated.
+
+
+SQL> create table student(roll_no int,name varchar(20),marks int);
+
+Table created.
+
+SQL> insert into student values(1,'abc',39);
+
+1 row created.
+
+SQL> insert into student values(2,'pqr',35);
+
+1 row created.
+
+SQL> insert into student values(3,'xyz',41);
+
+1 row created.
+
+SQL> insert into student values(4,'cde',37);
+
+1 row created.
+
+SQL> insert into student values(5,'lmo',46);
+
+1 row created.
+
+SQL> select * from student;
+
+   ROLL_NO NAME 		     MARKS
+---------- -------------------- ----------
+	 1 abc				39
+	 2 pqr				35
+	 3 xyz				41
+	 4 cde				37
+	 5 lmo				46
+
+
+
+
+begin
+update student set marks=40 where marks between 35 and 39;
+if SQL%notfound then
+dbms_output.put_line('No records were updated');
+else
+dbms_output.put_line('Total records updated:'||sql%rowcount);
+end if;
+end;
+  9  /
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from student;
+
+   ROLL_NO NAME 		     MARKS
+---------- -------------------- ----------
+	 1 abc				40
+	 2 pqr				40
+	 3 xyz				41
+	 4 cde				40
+	 5 lmo				46
+
+
+
+
+SQL> set serveroutput on;
+declare
+begin
+update student set marks=40 where marks between 35 and 39;
+if SQL%notfound then
+dbms_output.put_line('No records were updated');
+else
+dbms_output.put_line('Total records updated:'||sql%rowcount);
+end if;
+end;
+ 10  /
+No records were updated
+
+PL/SQL procedure successfully completed.
+
+declare
+begin
+update student set marks=45 where marks between 35 and 44;
+if SQL%notfound then
+dbms_output.put_line('No records were updated');
+else
+dbms_output.put_line('Total records updated:'||sql%rowcount);
+end if;
+end;
+ 10  /
+Total records updated:4
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from student;
+
+   ROLL_NO NAME 		     MARKS
+---------- -------------------- ----------
+	 1 abc				45
+	 2 pqr				45
+	 3 xyz				45
+	 4 cde				45
+	 5 lmo				46
+
+
+
+
+2.Write an anonymous code block to demonstrate use of explicit cursor,for loop & parametrized explicit cursor.Copy the content of student table to another table.Before copying,check whether second table consists of same roll number record.If so,discard it otherwise copy it.
+
+SQL> create table newstudent(roll_no int,name varchar(20),marks int); 
+
+Table created.
+
+SQL> insert into newstudent values(1,'abc',45);
+
+1 row created.
+
+SQL> insert into newstudent values(3,'xyz',45);
+
+1 row created.
+
+SQL> insert into newstudent values(7,'xyzr',95);
+
+1 row created.
+
+SQL> insert into newstudent values(8,'pqrs',65);
+
+1 row created.
+
+
+declare
+cursor cur_s is select * from student;
+cursor cur_new(a int) is select * from newstudent where roll_no =a;
+nrec newstudent%rowtype;
+  5  
+begin
+for srec in cur_s
+loop
+open cur_new(srec.roll_no);
+fetch cur_new into nrec;
+if cur_new%notfound then
+insert into newstudent values(srec.roll_no,srec.name,srec.marks);
+end if;
+close cur_new;
+end loop;
+end;
+ 17  /
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT * FROM newstudent;
+
+   ROLL_NO NAME 		     MARKS
+---------- -------------------- ----------
+	 1 abc				45
+	 3 xyz				45
+	 7 xyzr 			95
+	 8 pqrs 			65
+	 2 pqr				45
+	 4 cde				45
+	 5 lmo				46
+
+7 rows selected.
+
+SQL> 
