@@ -1,0 +1,46 @@
+<html>
+  <head>
+	<title> JSON </title>
+
+	<script language = "javascript">
+
+	var jsobj = {"DBMS":[{"bname" : "DBMS SYS" , "price":200},{"bname": "dbms mongodb", "price":100}] , "MySQL" : [{ "bname" : "MYSQL PRE" , "price":1200},{"bname": "MYSQL adv", "price":1100}]};
+
+	for(i = 0 ; i < jsobj.DBMS.length ; i++)
+        {
+
+	document.writeln(" <td> <table> <tr> <td> <b> BOOK NAME </b> </td> <td> "+ jsobj.DBMS[i].bname + " </td> </tr> <tr> <td> <b> PRICE </b> </td> <td> "+ jsobj.DBMS[i].price + " </td> </tr> </table> </td> ");
+	
+
+	}
+
+for(i = 0 ; i < jsobj.MySQL.length ; i++)
+        {
+	document.writeln(" <td> <table> <tr> <td> <b> BOOK NAME </b> </td> <td> "+ jsobj.MySQL[i].bname + " </td> </tr> <tr> <td> <b> PRICE </b> </td> <td> "+ jsobj.MySQL[i].price + " </td> </tr> </table> </td> ");
+	}
+
+	</script>
+   </head>
+
+</html>
+
+
+
+
+
+
+<HTML>
+<HEAD>
+
+<TITLE>Welcome to SKNCOE</TITLE>
+<SCRIPT language="javascript">
+
+var JSONObj ={"name":"www.sinhagad.edu","year":2001};
+document.write("<h1>Welcome to SKNCOE,Pune</h1>");
+document.write("<br>");
+document.write("<h3> Website Name="+JSONObj.name+"</h3>");
+document.write("<h3>Year="+JSONObj.year+"</h3>");
+</SCRIPT>
+</HEAD>
+<BODY></BODY>
+</HTML>
