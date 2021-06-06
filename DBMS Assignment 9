@@ -1,0 +1,246 @@
+Create teachers collection with following keys
+t_id,name,city,date of join,subject,email_id(optional),qualification.
+Insert atleast 10 documents.
+
+
+1.Find all records from collection.
+db.Teachers.find()
+{ "_id" : ObjectId("59a6577cd02571ddcac86f19"), "T_id" : 1, "Name" : "Poonam", "City" : "Delhi", "DOJ" : ISODate("2016-05-12T00:00:00Z"), "Sub" : "DBMS", "Email_id" : "poonam1@gmail.com", "Qualification" : "ME" }
+{ "_id" : ObjectId("59a657add02571ddcac86f1a"), "T_id" : 2, "Name" : "Aryan", "City" : "Pune", "DOJ" : ISODate("2017-08-14T00:00:00Z"), "Sub" : "TOC", "Email_id" : "aryan@gmail.com", "Qualification" : "MTECH" }
+{ "_id" : ObjectId("59a657d7d02571ddcac86f1b"), "T_id" : 3, "Name" : "Suyash", "City" : "Goa", "DOJ" : ISODate("2017-03-24T00:00:00Z"), "Sub" : "DBMS", "Email_id" : "suyash@gmail.com", "Qualification" : "BTECH" }
+{ "_id" : ObjectId("59a65800d02571ddcac86f1c"), "T_id" : 4, "Name" : "Peter", "City" : "Delhi", "DOJ" : ISODate("2014-07-21T00:00:00Z"), "Sub" : "M3", "Qualification" : "MTECH" }
+{ "_id" : ObjectId("59a65824d02571ddcac86f1d"), "T_id" : 5, "Name" : "Bob", "City" : "Delhi", "DOJ" : ISODate("2017-02-26T00:00:00Z"), "Sub" : "CN", "Qualification" : "ME" }
+{ "_id" : ObjectId("59a6583dd02571ddcac86f1e"), "T_id" : 6, "Name" : "Hari", "City" : "Pune", "DOJ" : ISODate("2017-02-26T00:00:00Z"), "Sub" : "DBMS", "Qualification" : "ME" }
+{ "_id" : ObjectId("59a65862d02571ddcac86f1f"), "T_id" : 7, "Name" : "Harish", "City" : "Pune", "DOJ" : ISODate("2017-06-16T00:00:00Z"), "Sub" : "TOC", "Qualification" : "MTECH" }
+{ "_id" : ObjectId("59a65885d02571ddcac86f20"), "T_id" : 8, "Name" : "Smith", "City" : "Delhi", "DOJ" : ISODate("2017-06-16T00:00:00Z"), "Sub" : "M3", "Qualification" : "PHD" }
+{ "_id" : ObjectId("59a658b0d02571ddcac86f21"), "T_id" : 9, "Name" : "Naresh", "City" : "Raipur", "DOJ" : ISODate("2015-04-12T00:00:00Z"), "Sub" : "M3", "Qualification" : "PHD" }
+{ "_id" : ObjectId("59a658d1d02571ddcac86f22"), "T_id" : 10, "Name" : "Suresh", "City" : "Nagpur", "DOJ" : ISODate("2016-04-12T00:00:00Z"), "Sub" : "TOC", "Qualification" : "BTECH" }
+
+2.Find 1st record found by DBMS.
+_id" : ObjectId("59a6577cd02571ddcac86f19"),
+	"T_id" : 1,
+	"Name" : "Poonam",
+	"City" : "Delhi",
+	"DOJ" : ISODate("2016-05-12T00:00:00Z"),
+	"Sub" : "DBMS",
+	"Email_id" : "poonam1@gmail.com",
+	"Qualification" : "ME"
+
+3.Show all records in formatted way.
+	"_id" : ObjectId("59a6577cd02571ddcac86f19"),
+	"T_id" : 1,
+	"Name" : "Poonam",
+	"City" : "Delhi",
+	"DOJ" : ISODate("2016-05-12T00:00:00Z"),
+	"Sub" : "DBMS",
+	"Email_id" : "poonam1@gmail.com",
+	"Qualification" : "ME"
+}
+{
+	"_id" : ObjectId("59a657add02571ddcac86f1a"),
+	"T_id" : 2,
+	"Name" : "Aryan",
+	"City" : "Pune",
+	"DOJ" : ISODate("2017-08-14T00:00:00Z"),
+	"Sub" : "TOC",
+	"Email_id" : "aryan@gmail.com",
+	"Qualification" : "MTECH"
+}
+{
+	"_id" : ObjectId("59a657d7d02571ddcac86f1b"),
+	"T_id" : 3,
+	"Name" : "Suyash",
+	"City" : "Goa",
+	"DOJ" : ISODate("2017-03-24T00:00:00Z"),
+	"Sub" : "DBMS",
+	"Email_id" : "suyash@gmail.com",
+	"Qualification" : "BTECH"
+}
+{
+	"_id" : ObjectId("59a65800d02571ddcac86f1c"),
+	"T_id" : 4,
+	"Name" : "Peter",
+	"City" : "Delhi",
+	"DOJ" : ISODate("2014-07-21T00:00:00Z"),
+	"Sub" : "M3",
+	"Qualification" : "MTECH"
+}
+{
+	"_id" : ObjectId("59a65824d02571ddcac86f1d"),
+	"T_id" : 5,
+	"Name" : "Bob",
+	"City" : "Delhi",
+	"DOJ" : ISODate("2017-02-26T00:00:00Z"),
+	"Sub" : "CN",
+	"Qualification" : "ME"
+}
+{
+	"_id" : ObjectId("59a6583dd02571ddcac86f1e"),
+	"T_id" : 6,
+	"Name" : "Hari",
+	"City" : "Pune",
+	"DOJ" : ISODate("2017-02-26T00:00:00Z"),
+	"Sub" : "DBMS",
+	"Qualification" : "ME"
+}
+{
+	"_id" : ObjectId("59a65862d02571ddcac86f1f"),
+	"T_id" : 7,
+	"Name" : "Harish",
+	"City" : "Pune",
+	"DOJ" : ISODate("2017-06-16T00:00:00Z"),
+	"Sub" : "TOC",
+	"Qualification" : "MTECH"
+}
+{
+	"_id" : ObjectId("59a65885d02571ddcac86f20"),
+	"T_id" : 8,
+	"Name" : "Smith",
+	"City" : "Delhi",
+	"DOJ" : ISODate("2017-06-16T00:00:00Z"),
+	"Sub" : "M3",
+	"Qualification" : "PHD"
+}
+{
+	"_id" : ObjectId("59a658b0d02571ddcac86f21"),
+	"T_id" : 9,
+	"Name" : "Naresh",
+	"City" : "Raipur",
+	"DOJ" : ISODate("2015-04-12T00:00:00Z"),
+	"Sub" : "M3",
+	"Qualification" : "PHD"
+}
+{
+	"_id" : ObjectId("59a658d1d02571ddcac86f22"),
+	"T_id" : 10,
+	"Name" : "Suresh",
+	"City" : "Nagpur",
+	"DOJ" : ISODate("2016-04-12T00:00:00Z"),
+	"Sub" : "TOC",
+	"Qualification" : "BTECH"
+4.Find teachers who taught DBMS.
+db.Teachers.find({Sub:"DBMS"}).pretty()
+{
+	"_id" : ObjectId("59a6577cd02571ddcac86f19"),
+	"T_id" : 1,
+	"Name" : "Poonam",
+	"City" : "Delhi",
+	"DOJ" : ISODate("2016-05-12T00:00:00Z"),
+	"Sub" : "DBMS",
+	"Email_id" : "poonam1@gmail.com",
+	"Qualification" : "ME"
+}
+{
+	"_id" : ObjectId("59a657d7d02571ddcac86f1b"),
+	"T_id" : 3,
+	"Name" : "Suyash",
+	"City" : "Goa",
+	"DOJ" : ISODate("2017-03-24T00:00:00Z"),
+	"Sub" : "DBMS",
+	"Email_id" : "suyash@gmail.com",
+	"Qualification" : "BTECH"
+}
+{
+	"_id" : ObjectId("59a6583dd02571ddcac86f1e"),
+	"T_id" : 6,
+	"Name" : "Hari",
+	"City" : "Pune",
+	"DOJ" : ISODate("2017-02-26T00:00:00Z"),
+	"Sub" : "DBMS",
+	"Qualification" : "ME"
+}
+
+5.Update city of teachers with t_id=2;
+
+db.Teachers.update({T_id:2},{$set:{City:"Ajmer"}},{multi:true})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+db.Teachers.find()
+{ "_id" : ObjectId("59a6577cd02571ddcac86f19"), "T_id" : 1, "Name" : "Poonam", "City" : "Delhi", "DOJ" : ISODate("2016-05-12T00:00:00Z"), "Sub" : "DBMS", "Email_id" : "poonam1@gmail.com", "Qualification" : "ME" }
+{ "_id" : ObjectId("59a657add02571ddcac86f1a"), "T_id" : 2, "Name" : "Aryan", "City" : "Ajmer", "DOJ" : ISODate("2017-08-14T00:00:00Z"), "Sub" : "TOC", "Email_id" : "aryan@gmail.com", "Qualification" : "MTECH" }
+{ "_id" : ObjectId("59a657d7d02571ddcac86f1b"), "T_id" : 3, "Name" : "Suyash", "City" : "Goa", "DOJ" : ISODate("2017-03-24T00:00:00Z"), "Sub" : "DBMS", "Email_id" : "suyash@gmail.com", "Qualification" : "BTECH" }
+{ "_id" : ObjectId("59a65800d02571ddcac86f1c"), "T_id" : 4, "Name" : "Peter", "City" : "Delhi", "DOJ" : ISODate("2014-07-21T00:00:00Z"), "Sub" : "M3", "Qualification" : "MTECH" }
+{ "_id" : ObjectId("59a65824d02571ddcac86f1d"), "T_id" : 5, "Name" : "Bob", "City" : "Delhi", "DOJ" : ISODate("2017-02-26T00:00:00Z"), "Sub" : "CN", "Qualification" : "ME" }
+{ "_id" : ObjectId("59a6583dd02571ddcac86f1e"), "T_id" : 6, "Name" : "Hari", "City" : "Pune", "DOJ" : ISODate("2017-02-26T00:00:00Z"), "Sub" : "DBMS", "Qualification" : "ME" }
+{ "_id" : ObjectId("59a65862d02571ddcac86f1f"), "T_id" : 7, "Name" : "Harish", "City" : "Pune", "DOJ" : ISODate("2017-06-16T00:00:00Z"), "Sub" : "TOC", "Qualification" : "MTECH" }
+{ "_id" : ObjectId("59a65885d02571ddcac86f20"), "T_id" : 8, "Name" : "Smith", "City" : "Delhi", "DOJ" : ISODate("2017-06-16T00:00:00Z"), "Sub" : "M3", "Qualification" : "PHD" }
+{ "_id" : ObjectId("59a658b0d02571ddcac86f21"), "T_id" : 9, "Name" : "Naresh", "City" : "Raipur", "DOJ" : ISODate("2015-04-12T00:00:00Z"), "Sub" : "M3", "Qualification" : "PHD" }
+{ "_id" : ObjectId("59a658d1d02571ddcac86f22"), "T_id" : 10, "Name" : "Suresh", "City" : "Nagpur", "DOJ" : ISODate("2016-04-12T00:00:00Z"), "Sub" : "TOC", "Qualification" : "BTECH" }
+
+6.Remove teachers from collection who taught DBMS.
+ db.Teachers.find().pretty()
+{
+	"_id" : ObjectId("59a657add02571ddcac86f1a"),
+	"T_id" : 2,
+	"Name" : "Aryan",
+	"City" : "Ajmer",
+	"DOJ" : ISODate("2017-08-14T00:00:00Z"),
+	"Sub" : "TOC",
+	"Email_id" : "aryan@gmail.com",
+	"Qualification" : "MTECH"
+}
+{
+	"_id" : ObjectId("59a65800d02571ddcac86f1c"),
+	"T_id" : 4,
+	"Name" : "Peter",
+	"City" : "Delhi",
+	"DOJ" : ISODate("2014-07-21T00:00:00Z"),
+	"Sub" : "M3",
+	"Qualification" : "MTECH"
+}
+{
+	"_id" : ObjectId("59a65824d02571ddcac86f1d"),
+	"T_id" : 5,
+	"Name" : "Bob",
+	"City" : "Delhi",
+	"DOJ" : ISODate("2017-02-26T00:00:00Z"),
+	"Sub" : "CN",
+	"Qualification" : "ME"
+}
+{
+	"_id" : ObjectId("59a65862d02571ddcac86f1f"),
+	"T_id" : 7,
+	"Name" : "Harish",
+	"City" : "Pune",
+	"DOJ" : ISODate("2017-06-16T00:00:00Z"),
+	"Sub" : "TOC",
+	"Qualification" : "MTECH"
+}
+{
+	"_id" : ObjectId("59a65885d02571ddcac86f20"),
+	"T_id" : 8,
+	"Name" : "Smith",
+	"City" : "Delhi",
+	"DOJ" : ISODate("2017-06-16T00:00:00Z"),
+	"Sub" : "M3",
+	"Qualification" : "PHD"
+}
+{
+	"_id" : ObjectId("59a658b0d02571ddcac86f21"),
+	"T_id" : 9,
+	"Name" : "Naresh",
+	"City" : "Raipur",
+	"DOJ" : ISODate("2015-04-12T00:00:00Z"),
+	"Sub" : "M3",
+	"Qualification" : "PHD"
+}
+{
+	"_id" : ObjectId("59a658d1d02571ddcac86f22"),
+	"T_id" : 10,
+	"Name" : "Suresh",
+	"City" : "Nagpur",
+	"DOJ" : ISODate("2016-04-12T00:00:00Z"),
+	"Sub" : "TOC",
+	"Qualification" : "BTECH"
+}
+
+7.Remove all documents.
+
+db.Teachers.remove({})
+WriteResult({ "nRemoved" : 7 })
+
+8.Drop collection.
+db.Teachers.drop()
+true
+show collections
+system.indexes
