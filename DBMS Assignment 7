@@ -1,0 +1,90 @@
+
+
+SQL> create table borrower_t7(roll_no int,name varchar(20),date_of_i date,name_of_book varchar(20),status varchar(10));
+
+Table created.
+
+SQL> create table fine_t7(roll_no int,date_of_r date,amt int);
+
+Table created.
+
+
+SQL> insert into borrower_t7 values(1,'harsh','12-06-2017','harry potter','i');   
+
+1 row created.
+
+SQL> insert into borrower_t7 values(2,'sandesh','15-06-2017','iceage','r');     
+
+1 row created.
+
+SQL> select * from borrower_t7;
+
+   ROLL_NO NAME 		DATE_OF_ NAME_OF_BOOK	      STATUS
+---------- -------------------- -------- -------------------- ----------
+	 1 harsh		12-06-17 harry potter	      i
+	 2 sandesh		15-06-17 iceage 	      r
+
+SQL> insert into borrower_t7 values(3,'Rahul','25-07-2017','pokemon','i');
+
+1 row created.
+
+SQL> insert into borrower_t7 values(4,'sarvesh','20-04-2017','duel','r');
+
+1 row created.
+
+SQL> insert into borrower_t7 values(5,'ishwari','22-05-2017','hindikatha','i');
+
+1 row created.
+
+SQL> select * from borrower_t7;
+
+   ROLL_NO NAME 		DATE_OF_ NAME_OF_BOOK	      STATUS
+---------- -------------------- -------- -------------------- ----------
+	 1 harsh		12-06-17 harry potter	      i
+	 2 sandesh		15-06-17 iceage 	      r
+	 3 Rahul		25-07-17 pokemon	      i
+	 4 sarvesh		20-04-17 duel		      r
+	 5 ishwari		22-05-17 hindikatha	      i
+
+
+declare
+roll int:=&roll_number;
+b_name varchar(20):='&bookname';
+mdays int:=0;
+ndays date;
+fine_amt int:=0;
+begin
+select date_of_i into ndays from borrower_t7 where roll_no=roll and name_of_book=b_name;
+mdays:=sysdate-ndays;
+if mdays>=15 and mdays<30 then
+fine_amt:=(mdays-15)*5;
+elsif mdays>=30 then
+fine_amt:=15*5+(mdays-30)*50;
+end if;
+update borrower_t7 set status='r' where roll_no=roll and name_of_book=b_name;
+if fine_amt>0 then 
+insert into fine_t7 values(roll,sysdate,fine_amt);
+end if;
+exception
+when no_data_found then
+dbms_output.put_line('No data found');
+when others then
+dbms_output.put_line('Exception occurred');
+end;
+/
+
+select * from fine_t7;
+
+   ROLL_NO DATE_OF_	   AMT
+---------- -------- ----------
+	 3 23-08-17	    75
+
+SQL> select * from borrower_t7;
+
+   ROLL_NO NAME 		DATE_OF_ NAME_OF_BOOK	      STATUS
+---------- -------------------- -------- -------------------- ----------
+	 1 harsh		12-06-17 harry potter	      i
+	 2 sandesh		15-06-17 iceage 	      r
+	 3 Rahul		25-07-17 pokemon	      r
+	 4 sarvesh		20-04-17 duel		      r
+	 5 ishwari		22-05-17 hindikatha	      i
